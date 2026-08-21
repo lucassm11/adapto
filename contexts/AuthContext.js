@@ -34,44 +34,55 @@ export function AuthProvider({ children }) {
   const popupBusy = useRef(false);
 
   useEffect(() => {
-    getRedirectResult(auth).catch(() => {});
-    const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
-      setUser(firebaseUser);
-      if (firebaseUser) {
-        try {
-          const ref = doc(db, 'usuarios', firebaseUser.uid);
-          const snap = await getDoc(ref);
-          if (snap.exists()) {
-            setPlan(snap.data().plan || 'gratis');
-          } else {
-            await setDoc(ref, {
-              email: firebaseUser.email,
-              nombre: firebaseUser.displayName || '',
-              plan: 'gratis',
-              fecha_creacion: new Date().toISOString(),
-            });
-            setPlan('gratis');
-            try {
-              await fetch('/api/bienvenida', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  email: firebaseUser.email,
-                  nombre: firebaseUser.displayName || 'Profesor/a',
-                }),
+    let unsub = null;
+
+    async function init() {
+      try {
+        await getRedirectResult(auth);
+      } catch (err) {
+        console.warn('Redirect result error:', err.code || err.message);
+      }
+
+      unsub = onAuthStateChanged(auth, async (firebaseUser) => {
+        setUser(firebaseUser);
+        if (firebaseUser) {
+          try {
+            const ref = doc(db, 'usuarios', firebaseUser.uid);
+            const snap = await getDoc(ref);
+            if (snap.exists()) {
+              setPlan(snap.data().plan || 'gratis');
+            } else {
+              await setDoc(ref, {
+                email: firebaseUser.email,
+                nombre: firebaseUser.displayName || '',
+                plan: 'gratis',
+                fecha_creacion: new Date().toISOString(),
               });
-            } catch {}
+              setPlan('gratis');
+              try {
+                await fetch('/api/bienvenida', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    email: firebaseUser.email,
+                    nombre: firebaseUser.displayName || 'Profesor/a',
+                  }),
+                });
+              } catch {}
+            }
+          } catch (err) {
+            console.warn('Firestore error:', err.message);
+            setPlan('gratis');
           }
-        } catch (err) {
-          console.warn('Firestore error:', err.message);
+        } else {
           setPlan('gratis');
         }
-      } else {
-        setPlan('gratis');
-      }
-      setLoading(false);
-    });
-    return unsub;
+        setLoading(false);
+      });
+    }
+
+    init();
+    return () => { if (unsub) unsub(); };
   }, []);
 
   async function signInWithGoogle() {
