@@ -95,6 +95,7 @@ export default function AuditorDuaPage() {
   const [descargando, setDescargando] = useState(false);
   const [usadas, setUsadas] = useState(0);
   const [activeTab, setActiveTab] = useState('dictamen');
+  const [showPdfPreview, setShowPdfPreview] = useState(false);
   const [processStep, setProcessStep] = useState(0);
   const fileRef = useRef(null);
   const formCardRef = useRef(null);
@@ -487,7 +488,10 @@ export default function AuditorDuaPage() {
                                       {item === perfil && <svg className="w-3.5 h-3.5 text-[#1B3A32] shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>}
                                       <span className={item === perfil ? '' : 'pl-[22px]'}>{item}</span>
                                       {locked && (
-                                        <svg className="w-3 h-3 text-[#1a1a1a]/20 shrink-0 ml-auto" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" /></svg>
+                                        <span className="ml-auto flex items-center gap-1">
+                                          <span className="text-[8px] font-bold uppercase tracking-wider text-[#1B3A32] bg-[#1B3A32]/[0.06] px-1.5 py-0.5 rounded-full border border-[#1B3A32]/10">PRO</span>
+                                          <svg className="w-3 h-3 text-[#1a1a1a]/20 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" /></svg>
+                                        </span>
                                       )}
                                     </button>
                                   );
@@ -744,10 +748,10 @@ export default function AuditorDuaPage() {
                             {descargando ? <><div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" /> Generando...</> : <><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg> PDF</>}
                           </button>
                         ) : (
-                          <button onClick={() => setLimiteAlcanzado(true)} className="shrink-0 group flex items-center gap-2 bg-[#1a1a1a]/[0.06] text-[#1a1a1a]/40 font-semibold rounded-xl px-5 py-3 cursor-not-allowed text-sm relative">
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" /></svg>
-                            PDF
-                            <span className="absolute -top-2 -right-2 bg-[#1B3A32] text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full shadow-sm">PRO</span>
+                          <button onClick={() => setShowPdfPreview(true)} className="shrink-0 group flex items-center gap-2 bg-[#1B3A32] text-white font-semibold rounded-xl px-5 py-3 hover:bg-[#24493f] hover:shadow-lg hover:shadow-[#1B3A32]/20 transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 active:scale-95 text-sm cursor-pointer relative">
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
+                            Vista previa
+                            <span className="absolute -top-2 -right-2 bg-gold text-ink text-[8px] font-bold px-1.5 py-0.5 rounded-full shadow-sm">PRO</span>
                           </button>
                         )}
                       </div>
@@ -985,6 +989,70 @@ export default function AuditorDuaPage() {
           </>
         )}
       </main>
+
+      {/* PDF PREVIEW MODAL (free users) */}
+      {showPdfPreview && resultado && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setShowPdfPreview(false)}>
+          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-2xl flex flex-col" onClick={(e) => e.stopPropagation()}>
+            <div className="px-6 py-4 border-b border-black/[0.06] flex items-center justify-between shrink-0">
+              <div>
+                <h2 className="font-display text-lg text-ink">Vista previa del informe</h2>
+                <p className="text-xs text-ink/40 mt-0.5">Actualiza a Pro para descargar el PDF completo</p>
+              </div>
+              <button onClick={() => setShowPdfPreview(false)} className="w-8 h-8 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center transition-colors cursor-pointer">
+                <svg className="w-4 h-4 text-ink/40" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-6 relative">
+              {/* Watermark */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+                <div className="text-[80px] font-display font-bold text-[#1B3A32]/[0.06] -rotate-12 select-none tracking-tight">adapto</div>
+              </div>
+              <div className="relative z-0 space-y-5 opacity-60">
+                {/* Score */}
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-mono-score text-2xl font-bold" style={{ backgroundColor: resultado.estado_cumplimiento === 'APROBADO' ? '#22c55e' : resultado.estado_cumplimiento === 'REQUIERE_AJUSTES' ? '#f59e0b' : '#ef4444' }}>
+                    {resultado.puntuacion_accesibilidad}
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-ink/30">Indice DUA</p>
+                    <p className="text-xs text-ink/50">{materia} · {curso}</p>
+                  </div>
+                </div>
+                {/* Dictamen */}
+                <div className="rounded-xl border border-black/[0.06] p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-pine mb-2">Dictamen psicopedagogico</p>
+                  <p className="text-xs text-ink/50 leading-relaxed line-clamp-4">{resultado.dictamen_general}</p>
+                </div>
+                {/* First adapted question */}
+                {resultado.examen_adaptado?.[0] && (
+                  <div className="rounded-xl border border-pine/10 bg-pine/[0.02] p-4">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-pine mb-2">P1 adaptada</p>
+                    <p className="text-xs text-ink/60 leading-relaxed">{resultado.examen_adaptado[0].enunciado_adaptado}</p>
+                    {resultado.examen_adaptado[0].justificacion_adaptacion && (
+                      <p className="text-[10px] text-gold/70 mt-2 italic line-clamp-2">{resultado.examen_adaptado[0].justificacion_adaptacion}</p>
+                    )}
+                  </div>
+                )}
+                <div className="rounded-xl border border-black/[0.06] p-4 text-center">
+                  <p className="text-xs text-ink/30 italic">... resto del informe bloqueado ...</p>
+                </div>
+              </div>
+            </div>
+            <div className="px-6 py-4 border-t border-black/[0.06] bg-[#faf8f5] shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="flex-1">
+                  <p className="text-xs font-semibold text-ink/70">Descarga el informe completo en PDF</p>
+                  <p className="text-[10px] text-ink/40">Dictamen, criterios DUA, todas las adaptaciones y justificaciones.</p>
+                </div>
+                <Link href="/precios" className="shrink-0 bg-[#1B3A32] text-white font-semibold rounded-xl px-5 py-2.5 hover:bg-[#24493f] transition-colors text-sm">
+                  Desbloquear con Pro
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* LIMIT MODAL */}
       {limiteAlcanzado && (

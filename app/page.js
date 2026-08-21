@@ -791,11 +791,11 @@ export default function Home() {
               </div>
               <ul className="space-y-3 mb-8">
                 {[
-                  '3 auditorias de examen',
+                  '3 adaptaciones de examen',
                   'Examen adaptado con justificaciones',
                   'Criterios DUA por pregunta',
-                  '3 perfiles de ejemplo',
-                  'PDF con marca de agua',
+                  '3 perfiles TDAH incluidos',
+                  'Previsualizacion del informe',
                   'AdapBot basico',
                 ].map((f) => (
                   <li key={f} className="flex items-center gap-2.5 text-sm text-ink/60">
@@ -817,9 +817,9 @@ export default function Home() {
               </div>
               <ul className="space-y-3 mb-8">
                 {[
-                  'Auditorias ilimitadas',
+                  'Adaptaciones ilimitadas',
                   '16 perfiles NEAE completos',
-                  'PDF sin marca de agua',
+                  'Descarga PDF informe completo',
                   'Diagnosticador IA',
                   'AdapBot con contexto completo',
                   'Analisis de complejidad por pregunta',
