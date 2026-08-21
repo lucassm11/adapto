@@ -65,11 +65,21 @@ export default function LoginPage() {
     }
   };
 
-  const handleGoogle = () => {
+  const handleGoogle = async () => {
     setError('');
     setSuccess('');
     setGoogleError('');
-    signInWithGoogle();
+    try {
+      await signInWithGoogle();
+    } catch (err) {
+      setGoogleError(
+        err.code === 'auth/unauthorized-domain'
+          ? 'Este dominio no esta autorizado en Firebase. Anadelo en Authentication > Settings > Authorized domains.'
+          : err.code === 'auth/operation-not-supported-in-this-environment'
+            ? 'Tu navegador esta bloqueando el inicio de sesion. Prueba con otro navegador o permite las cookies de terceros.'
+            : err.message || 'No se pudo iniciar sesion con Google.'
+      );
+    }
   };
 
   return (

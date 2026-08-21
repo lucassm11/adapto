@@ -383,7 +383,7 @@ export default function AuditorDuaPage() {
                 <button onClick={signOut} className="text-xs text-[#1a1a1a]/40 hover:text-[#c43e3e] px-3 py-2 transition-colors cursor-pointer">Salir</button>
               </>
             ) : (
-              <button onClick={signInWithGoogle} className="text-sm font-semibold bg-[#1B3A32] text-white rounded-full px-5 py-2.5 hover:bg-[#24493f] hover:shadow-lg hover:shadow-[#1B3A32]/20 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer">
+              <button onClick={() => signInWithGoogle().catch(() => {})} className="text-sm font-semibold bg-[#1B3A32] text-white rounded-full px-5 py-2.5 hover:bg-[#24493f] hover:shadow-lg hover:shadow-[#1B3A32]/20 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer">
                 Iniciar sesión
               </button>
             )}

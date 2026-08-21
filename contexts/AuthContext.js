@@ -85,11 +85,19 @@ export function AuthProvider({ children }) {
   async function signInWithGoogle() {
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account' });
-    signInWithPopup(auth, provider).catch((err) => {
-      if (err.code === 'auth/popup-blocked') {
-        signInWithRedirect(auth, provider);
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (err) {
+      if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
+        return;
       }
-    });
+      try {
+        await signInWithRedirect(auth, provider);
+      } catch (redirectErr) {
+        console.error('Error Google sign-in:', redirectErr);
+        throw redirectErr;
+      }
+    }
   }
 
   async function registerWithEmail(email, password, nombre) {
