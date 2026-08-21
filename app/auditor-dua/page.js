@@ -96,7 +96,6 @@ export default function AuditorDuaPage() {
   const [usadas, setUsadas] = useState(0);
   const [activeTab, setActiveTab] = useState('dictamen');
   const [showPdfPreview, setShowPdfPreview] = useState(false);
-  const [previewPdfUrl, setPreviewPdfUrl] = useState(null);
   const [processStep, setProcessStep] = useState(0);
   const fileRef = useRef(null);
   const formCardRef = useRef(null);
@@ -144,10 +143,6 @@ export default function AuditorDuaPage() {
     const iv = setInterval(() => { i++; if (i < 4) setProcessStep(i); }, 1200);
     return () => clearInterval(iv);
   }, [procesando]);
-
-  useEffect(() => {
-    return () => { if (previewPdfUrl) URL.revokeObjectURL(previewPdfUrl); };
-  }, []);
 
   const procesarArchivo = (file) => {
     if (!file) return;
@@ -296,12 +291,7 @@ export default function AuditorDuaPage() {
       const pdfMake = (await import('pdfmake/build/pdfmake')).default;
       await import('pdfmake/build/vfs_fonts');
       const docDefinition = buildPdfDoc();
-      const blob = await new Promise((resolve) => {
-        pdfMake.createPdf(docDefinition).getBlob(resolve);
-      });
-      const url = URL.createObjectURL(blob);
-      if (previewPdfUrl) URL.revokeObjectURL(previewPdfUrl);
-      setPreviewPdfUrl(url);
+      pdfMake.createPdf(docDefinition).open();
       setShowPdfPreview(true);
     } catch (err) { console.error('Error generating preview PDF:', err); } finally { setDescargando(false); }
   };
@@ -1017,39 +1007,32 @@ export default function AuditorDuaPage() {
         )}
       </main>
 
-      {/* PDF PREVIEW MODAL (free users) - real PDF + watermark overlay */}
-      {showPdfPreview && previewPdfUrl && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => { URL.revokeObjectURL(previewPdfUrl); setPreviewPdfUrl(null); setShowPdfPreview(false); }}>
-          <div className="bg-white rounded-3xl max-w-3xl w-full h-[85vh] overflow-hidden shadow-2xl flex flex-col" onClick={(e) => e.stopPropagation()}>
-            <div className="px-6 py-4 border-b border-black/[0.06] flex items-center justify-between shrink-0">
-              <div>
-                <h2 className="font-display text-lg text-ink">Vista previa del informe</h2>
-                <p className="text-xs text-ink/40 mt-0.5">Actualiza a Pro para descargar el PDF completo</p>
+      {/* PDF PREVIEW MODAL (free users) - blocking overlay */}
+      {showPdfPreview && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setShowPdfPreview(false)}>
+          <div className="bg-white rounded-3xl max-w-lg w-full p-8 text-center shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-[#1B3A32]/10 flex items-center justify-center">
+              <svg className="w-8 h-8 text-[#1B3A32]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>
+            </div>
+            <h2 className="font-display text-2xl text-[#1a1a1a] mb-2">Informe generado</h2>
+            <p className="text-sm text-[#1a1a1a]/45 mb-6">El PDF completo se ha abierto en una nueva pestana. Cierra esta ventana para volver al resultado.</p>
+            <div className="bg-[#faf8f5] rounded-xl p-5 text-left text-sm space-y-3 mb-6 border border-black/[0.06]">
+              <div className="flex items-start gap-3">
+                <div className="w-5 h-5 rounded-full bg-[#1B3A32] text-white flex items-center justify-center shrink-0 mt-0.5"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg></div>
+                <span className="text-[#1a1a1a]/60">Dictamen, criterios DUA, todas las adaptaciones y justificaciones.</span>
               </div>
-              <button onClick={() => { URL.revokeObjectURL(previewPdfUrl); setPreviewPdfUrl(null); setShowPdfPreview(false); }} className="w-8 h-8 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center transition-colors cursor-pointer">
-                <svg className="w-4 h-4 text-ink/40" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              <div className="flex items-start gap-3">
+                <div className="w-5 h-5 rounded-full bg-gold text-ink flex items-center justify-center shrink-0 mt-0.5"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" /></svg></div>
+                <span className="text-[#1a1a1a]/60">Para <strong>descargar el PDF</strong> sin marca de agua, necesitas <strong>Adapto Pro</strong>.</span>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => setShowPdfPreview(false)} className="flex-1 bg-[#faf8f5] text-ink/50 font-semibold rounded-xl px-5 py-3 hover:bg-[#f0ede8] transition-colors text-sm border border-black/[0.06]">
+                Cerrar
               </button>
-            </div>
-            <div className="flex-1 relative bg-[#e5e5e5]">
-              <iframe src={previewPdfUrl} className="w-full h-full border-0" title="Vista previa del informe" />
-              {/* Watermark overlay */}
-              <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-10">
-                <div className="text-center">
-                  <p className="text-[72px] font-display font-bold text-[#1B3A32]/[0.08] -rotate-[20deg] select-none leading-none tracking-tight">adapto</p>
-                  <p className="text-sm font-semibold text-[#1B3A32]/[0.15] mt-2 select-none tracking-wide">INFORME COMPLETO DESBLOQUEADO CON PRO</p>
-                </div>
-              </div>
-            </div>
-            <div className="px-6 py-4 border-t border-black/[0.06] bg-[#faf8f5] shrink-0">
-              <div className="flex items-center gap-3">
-                <div className="flex-1">
-                  <p className="text-xs font-semibold text-ink/70">Descarga el informe completo en PDF</p>
-                  <p className="text-[10px] text-ink/40">Dictamen, criterios DUA, todas las adaptaciones y justificaciones.</p>
-                </div>
-                <Link href="/precios" className="shrink-0 bg-[#1B3A32] text-white font-semibold rounded-xl px-5 py-2.5 hover:bg-[#24493f] transition-colors text-sm">
-                  Desbloquear con Pro
-                </Link>
-              </div>
+              <Link href="/precios" className="flex-1 bg-[#1B3A32] text-white font-semibold rounded-xl px-5 py-3 hover:bg-[#24493f] transition-colors text-sm text-center">
+                Desbloquear con Pro
+              </Link>
             </div>
           </div>
         </div>
