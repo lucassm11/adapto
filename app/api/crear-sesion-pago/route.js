@@ -50,9 +50,11 @@ export async function POST(request) {
           currency: 'eur',
           unit_amount: 3500,
           recurring: { interval: 'month' },
+          tax_code: 'txcd_10103100',
           product_data: {
             name: 'Adapto Pro',
             description: 'Adaptaciones ilimitadas, 16 perfiles NEAE, PDF completo, Diagnosticador IA y AdapBot con contexto.',
+            tax_code: 'txcd_10103100',
           },
         },
       };
