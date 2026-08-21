@@ -37,18 +37,10 @@ export function AuthProvider({ children }) {
 
     async function init() {
       try {
-        const result = await getRedirectResult(auth);
-        if (result) {
-          console.log('[Auth] getRedirectResult OK:', result.user?.email);
-        } else {
-          console.log('[Auth] getRedirectResult: no result (not a redirect回来 or already consumed)');
-        }
-      } catch (err) {
-        console.error('[Auth] getRedirectResult ERROR:', err.code, err.message);
-      }
+        await getRedirectResult(auth);
+      } catch {}
 
       unsub = onAuthStateChanged(auth, async (firebaseUser) => {
-        console.log('[Auth] onAuthStateChanged:', firebaseUser?.email || 'null');
         setUser(firebaseUser);
         if (firebaseUser) {
           try {
@@ -94,10 +86,8 @@ export function AuthProvider({ children }) {
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account' });
     signInWithPopup(auth, provider).catch((err) => {
-      if (err.code === 'auth/popup-blocked' || err.code === 'auth/cors HttpResponseMessage') {
+      if (err.code === 'auth/popup-blocked') {
         signInWithRedirect(auth, provider);
-      } else if (err.code !== 'auth/popup-closed-by-user' && err.code !== 'auth/cancelled-popup-request') {
-        console.error('[Auth] Google sign-in error:', err.code, err.message);
       }
     });
   }

@@ -17,28 +17,9 @@ export default function LoginPage() {
   const [success, setSuccess] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [googleError, setGoogleError] = useState('');
-  const [debugInfo, setDebugInfo] = useState([]);
-
-  const log = (msg) => {
-    const entry = `[${new Date().toLocaleTimeString()}] ${msg}`;
-    console.log('[LOGIN]', msg);
-    setDebugInfo((prev) => [...prev.slice(-15), entry]);
-  };
 
   useEffect(() => {
-    log(`Auth state: user=${user?.email || 'null'}, loading=${loading}`);
-  }, [user, loading]);
-
-  useEffect(() => {
-    log(`URL: ${window.location.href}`);
-    log(`Referrer: ${document.referrer || 'none'}`);
-  }, []);
-
-  useEffect(() => {
-    if (!loading && user) {
-      log(`Redirecting to /auditor-dua (user=${user.email})`);
-      router.push('/auditor-dua');
-    }
+    if (!loading && user) router.push('/auditor-dua');
   }, [user, loading, router]);
 
   const handleSubmit = async (e) => {
@@ -88,7 +69,6 @@ export default function LoginPage() {
     setError('');
     setSuccess('');
     setGoogleError('');
-    log('Google button clicked — opening popup...');
     signInWithGoogle();
   };
 
@@ -224,15 +204,6 @@ export default function LoginPage() {
             ← Volver a Adapto
           </Link>
         </div>
-
-        {debugInfo.length > 0 && (
-          <div className="mt-6 bg-black rounded-xl p-4 font-mono text-[10px] text-green-400 space-y-1 max-h-48 overflow-y-auto">
-            <p className="text-white/40 text-[9px] uppercase tracking-wider mb-2">Debug log</p>
-            {debugInfo.map((line, i) => (
-              <div key={i} className="break-all">{line}</div>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );
