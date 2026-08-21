@@ -38,10 +38,18 @@ export function AuthProvider({ children }) {
 
     async function init() {
       try {
-        await getRedirectResult(auth);
-      } catch {}
+        const result = await getRedirectResult(auth);
+        if (result) {
+          console.log('[Auth] getRedirectResult OK:', result.user?.email);
+        } else {
+          console.log('[Auth] getRedirectResult: no result (not a redirect回来 or already consumed)');
+        }
+      } catch (err) {
+        console.error('[Auth] getRedirectResult ERROR:', err.code, err.message);
+      }
 
       unsub = onAuthStateChanged(auth, async (firebaseUser) => {
+        console.log('[Auth] onAuthStateChanged:', firebaseUser?.email || 'null');
         setUser(firebaseUser);
         if (firebaseUser) {
           try {
