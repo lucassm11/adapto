@@ -5,6 +5,7 @@ import Link from 'next/link';
 import NextImage from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
 import AdapBot from '@/app/components/AdapBot';
+import PerfilHeatmap from '@/app/components/PerfilHeatmap';
 import { PERFILES_GRATIS } from '@/lib/constants';
 import { generateLogoIcon } from '@/lib/logo';
 
@@ -677,6 +678,11 @@ export default function AuditorDuaPage() {
                       <svg className="w-5 h-5 text-[#1a1a1a]/15 group-hover:text-[#1B3A32] group-hover:translate-x-1 transition-all duration-300 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
                     </div>
                   </Link>
+                )}
+
+                {/* MAPA DE CALOR COGNITIVO */}
+                {resultado && PERFIL_SLUG_MAP[perfil] && (
+                  <PerfilHeatmap slug={PERFIL_SLUG_MAP[perfil]} />
                 )}
 
                 {error && (
