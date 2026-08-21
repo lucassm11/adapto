@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, useRef } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import {
   onAuthStateChanged,
   signInWithPopup,
@@ -31,7 +31,6 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [plan, setPlan] = useState('gratis');
   const [loading, setLoading] = useState(true);
-  const popupBusy = useRef(false);
 
   useEffect(() => {
     let unsub = null;
@@ -92,22 +91,15 @@ export function AuthProvider({ children }) {
   }, []);
 
   async function signInWithGoogle() {
-    if (popupBusy.current) return;
-    popupBusy.current = true;
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account' });
-    try {
-      await signInWithPopup(auth, provider);
-    } catch (err) {
-      if (err.code === 'auth/popup-blocked' || err.code === 'auth/popup-closed-by-user') {
-        await signInWithRedirect(auth, provider);
-        return;
+    signInWithPopup(auth, provider).catch((err) => {
+      if (err.code === 'auth/popup-blocked' || err.code === 'auth/cors HttpResponseMessage') {
+        signInWithRedirect(auth, provider);
+      } else if (err.code !== 'auth/popup-closed-by-user' && err.code !== 'auth/cancelled-popup-request') {
+        console.error('[Auth] Google sign-in error:', err.code, err.message);
       }
-      if (err.code === 'auth/cancelled-popup-request') return;
-      throw err;
-    } finally {
-      popupBusy.current = false;
-    }
+    });
   }
 
   async function registerWithEmail(email, password, nombre) {

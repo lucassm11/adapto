@@ -84,18 +84,12 @@ export default function LoginPage() {
     }
   };
 
-  const handleGoogle = async () => {
+  const handleGoogle = () => {
     setError('');
     setSuccess('');
     setGoogleError('');
-    log('Google button clicked, calling signInWithGoogle...');
-    try {
-      await signInWithGoogle();
-      log('signInWithGoogle returned (popup closed or redirect started)');
-    } catch (err) {
-      log(`ERROR: ${err.code} — ${err.message}`);
-      setGoogleError(`${err.code}: ${err.message}`);
-    }
+    log('Google button clicked — opening popup...');
+    signInWithGoogle();
   };
 
   return (
