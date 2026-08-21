@@ -739,9 +739,17 @@ export default function AuditorDuaPage() {
                           <h2 className="font-display text-2xl text-[#1a1a1a] mb-2">Dictamen psicopedagogico</h2>
                           <p className="text-sm text-[#1a1a1a]/45 leading-relaxed">{resultado.dictamen_general}</p>
                         </div>
-                        <button onClick={generarPDF} disabled={descargando} className="shrink-0 group flex items-center gap-2 bg-[#1B3A32] text-white font-semibold rounded-xl px-5 py-3 hover:bg-[#24493f] hover:shadow-lg hover:shadow-[#1B3A32]/20 transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 active:scale-95 disabled:opacity-40 text-sm cursor-pointer">
-                          {descargando ? <><div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" /> Generando...</> : <><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg> PDF</>}
-                        </button>
+                        {esPro ? (
+                          <button onClick={generarPDF} disabled={descargando} className="shrink-0 group flex items-center gap-2 bg-[#1B3A32] text-white font-semibold rounded-xl px-5 py-3 hover:bg-[#24493f] hover:shadow-lg hover:shadow-[#1B3A32]/20 transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 active:scale-95 disabled:opacity-40 text-sm cursor-pointer">
+                            {descargando ? <><div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" /> Generando...</> : <><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg> PDF</>}
+                          </button>
+                        ) : (
+                          <button onClick={() => setLimiteAlcanzado(true)} className="shrink-0 group flex items-center gap-2 bg-[#1a1a1a]/[0.06] text-[#1a1a1a]/40 font-semibold rounded-xl px-5 py-3 cursor-not-allowed text-sm relative">
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" /></svg>
+                            PDF
+                            <span className="absolute -top-2 -right-2 bg-[#1B3A32] text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full shadow-sm">PRO</span>
+                          </button>
+                        )}
                       </div>
                       {/* DUA EXPLANATION */}
                       <div className="px-8 pb-6">
