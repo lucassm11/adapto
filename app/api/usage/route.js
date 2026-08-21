@@ -10,5 +10,6 @@ export async function GET(request) {
     return Response.json({ error: 'uid requerido' }, { status: 400 });
   }
 
-  return Response.json(getUsageForUser(uid));
+  const usage = await getUsageForUser(uid);
+  return Response.json(usage);
 }

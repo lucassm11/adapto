@@ -1,7 +1,7 @@
 // app/api/auditar-examen/route.js
 import { GoogleGenAI, Type } from '@google/genai';
 import { LIMITE_GRATIS, PERFILES_GRATIS } from '@/lib/constants';
-import { getUsage, incrementUsage } from '@/lib/usage';
+import { getUsageForUser, incrementUsage } from '@/lib/usage';
 
 export const dynamic = 'force-dynamic';
 
@@ -52,8 +52,8 @@ export async function POST(request) {
           { status: 403 }
         );
       }
-      const usage = getUsage();
-      const count = usage[uid] || 0;
+      const usage = await getUsageForUser(uid);
+      const count = usage.usadas;
       if (count >= LIMITE_GRATIS) {
         return Response.json(
           {
@@ -63,7 +63,7 @@ export async function POST(request) {
           { status: 429 }
         );
       }
-      incrementUsage(uid);
+      await incrementUsage(uid);
     }
 
     let contentsParts = [];
