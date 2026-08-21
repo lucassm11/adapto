@@ -50,6 +50,7 @@ export async function POST(request) {
           currency: 'eur',
           unit_amount: 3500,
           recurring: { interval: 'month' },
+          tax_behavior: 'inclusive',
           tax_code: 'txcd_10103100',
           product_data: {
             name: 'Adapto Pro',
