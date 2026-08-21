@@ -150,7 +150,41 @@ export default function PreciosPage() {
         <div className="absolute bottom-0 left-1/4 w-[420px] h-[420px] rounded-full opacity-[0.07]" style={{ background: 'radial-gradient(circle, #c43e3e 0%, transparent 65%)', animation: 'aurora-a 30s ease-in-out infinite alternate-reverse' }} />
       </div>
 
-      <div className="relative max-w-6xl mx-auto px-6 py-16 md:py-24">
+      {/* HEADER */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-paper/80 backdrop-blur-xl border-b border-black/[0.04]" style={{ opacity: 0, animation: 'form-fade-in 0.6s var(--ease-out) forwards' }}>
+        <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-pine to-pine-light flex items-center justify-center shadow-sm">
+              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 20L12 4L20 20" />
+                <path d="M7.5 14H16.5" />
+              </svg>
+            </div>
+            <span className="flex items-baseline">
+              <span className="font-display text-2xl text-ink tracking-tight">adap</span>
+              <span className="font-display text-2xl text-pine tracking-tight">to</span>
+            </span>
+          </Link>
+          <nav className="hidden md:flex items-center gap-1">
+            {[
+              { label: 'Como funciona', href: '/#como-funciona' },
+              { label: 'Diagnosticador IA', href: '/diagnosticador' },
+              { label: 'Perfiles', href: '/#perfiles' },
+              { label: 'Resultado', href: '/#resultado' },
+            ].map((s) => (
+              <Link key={s.label} href={s.href} className="text-sm text-ink/50 hover:text-ink px-4 py-2 rounded-full transition-colors duration-300">{s.label}</Link>
+            ))}
+            <Link href="/precios" className="text-sm font-semibold text-pine bg-pine/[0.08] border border-pine/15 px-4 py-2 rounded-full">Precios</Link>
+          </nav>
+          <div className="flex items-center gap-3">
+            <button onClick={pasarAPro} disabled={pagando || authLoading || esPro} className="btn-press text-sm font-semibold bg-pine text-white rounded-full px-5 py-2.5 hover:bg-pine-light hover:shadow-lg hover:shadow-pine/20 transition-all duration-300 disabled:opacity-40">
+              Pasar a Pro
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className="relative max-w-6xl mx-auto px-6 pt-36 pb-16 md:pt-44 md:pb-24">
         {cancelado && (
           <div className="mb-8 max-w-md mx-auto flex items-center gap-3 bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 text-sm text-amber-800" style={{ opacity: 0, animation: 'form-fade-in 0.4s var(--ease-out) forwards' }}>
             <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" /></svg>
