@@ -96,6 +96,7 @@ export default function AuditorDuaPage() {
   const [usadas, setUsadas] = useState(0);
   const [activeTab, setActiveTab] = useState('dictamen');
   const [showPdfPreview, setShowPdfPreview] = useState(false);
+  const [previewPdfUrl, setPreviewPdfUrl] = useState(null);
   const [processStep, setProcessStep] = useState(0);
   const fileRef = useRef(null);
   const formCardRef = useRef(null);
@@ -143,6 +144,11 @@ export default function AuditorDuaPage() {
     const iv = setInterval(() => { i++; if (i < 4) setProcessStep(i); }, 1200);
     return () => clearInterval(iv);
   }, [procesando]);
+
+  useEffect(() => {
+    if (!previewPdfUrl) return;
+    return () => URL.revokeObjectURL(previewPdfUrl);
+  }, [previewPdfUrl]);
 
   const procesarArchivo = (file) => {
     if (!file) return;
@@ -291,9 +297,20 @@ export default function AuditorDuaPage() {
       const pdfMake = (await import('pdfmake/build/pdfmake')).default;
       await import('pdfmake/build/vfs_fonts');
       const docDefinition = buildPdfDoc();
-      pdfMake.createPdf(docDefinition).open();
+      const blob = await new Promise((resolve, reject) => {
+        try {
+          const r = pdfMake.createPdf(docDefinition).getBlob(resolve);
+          if (r && typeof r.then === 'function') r.then(resolve, reject);
+        } catch (e) { reject(e); }
+      });
+      setPreviewPdfUrl(URL.createObjectURL(blob));
       setShowPdfPreview(true);
     } catch (err) { console.error('Error generating preview PDF:', err); } finally { setDescargando(false); }
+  };
+
+  const closePdfPreview = () => {
+    setPreviewPdfUrl(null);
+    setShowPdfPreview(false);
   };
 
   const score = resultado?.puntuacion_accesibilidad || 0;
@@ -1007,33 +1024,33 @@ export default function AuditorDuaPage() {
         )}
       </main>
 
-      {/* PDF PREVIEW MODAL (free users) - blocking overlay */}
-      {showPdfPreview && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setShowPdfPreview(false)}>
-          <div className="bg-white rounded-3xl max-w-lg w-full p-8 text-center shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-[#1B3A32]/10 flex items-center justify-center">
-              <svg className="w-8 h-8 text-[#1B3A32]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>
-            </div>
-            <h2 className="font-display text-2xl text-[#1a1a1a] mb-2">Informe generado</h2>
-            <p className="text-sm text-[#1a1a1a]/45 mb-6">El PDF completo se ha abierto en una nueva pestana. Cierra esta ventana para volver al resultado.</p>
-            <div className="bg-[#faf8f5] rounded-xl p-5 text-left text-sm space-y-3 mb-6 border border-black/[0.06]">
-              <div className="flex items-start gap-3">
-                <div className="w-5 h-5 rounded-full bg-[#1B3A32] text-white flex items-center justify-center shrink-0 mt-0.5"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg></div>
-                <span className="text-[#1a1a1a]/60">Dictamen, criterios DUA, todas las adaptaciones y justificaciones.</span>
+      {/* PDF PREVIEW MODAL (free users) - blurred PDF + Pro upsell card */}
+      {showPdfPreview && previewPdfUrl && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={closePdfPreview}>
+          <div className="relative bg-white rounded-3xl w-full max-w-3xl h-[85vh] overflow-hidden shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            {/* PDF real, difuminado y no interactivo */}
+            <iframe src={previewPdfUrl} title="Vista previa del informe" className="absolute inset-0 w-full h-full border-0 blur-[7px] scale-[1.04] pointer-events-none select-none" />
+            <div className="absolute inset-0 bg-white/30" />
+            {/* Tarjeta central Pro */}
+            <div className="absolute inset-0 flex items-center justify-center p-6">
+              <div className="bg-white rounded-3xl shadow-2xl border border-black/[0.06] max-w-md w-full p-8 text-center">
+                <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-gold/15 flex items-center justify-center">
+                  <svg className="w-8 h-8 text-gold" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" /></svg>
+                </div>
+                <h2 className="font-display text-2xl text-[#1a1a1a] mb-2">Informe generado</h2>
+                <p className="text-sm text-[#1a1a1a]/45 mb-6">Para ver y descargar el PDF completo con todas las preguntas adaptadas, necesitas <strong className="text-[#1a1a1a]/70">Adapto Pro</strong>.</p>
+                <Link href="/precios" className="block w-full bg-[#1B3A32] text-white font-semibold rounded-xl px-5 py-3 hover:bg-[#24493f] transition-colors text-sm mb-3">
+                  Desbloquear con Pro
+                </Link>
+                <button onClick={closePdfPreview} className="w-full bg-[#faf8f5] text-ink/50 font-semibold rounded-xl px-5 py-3 hover:bg-[#f0ede8] transition-colors text-sm border border-black/[0.06]">
+                  Cerrar
+                </button>
               </div>
-              <div className="flex items-start gap-3">
-                <div className="w-5 h-5 rounded-full bg-gold text-ink flex items-center justify-center shrink-0 mt-0.5"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" /></svg></div>
-                <span className="text-[#1a1a1a]/60">Para <strong>descargar el PDF</strong> sin marca de agua, necesitas <strong>Adapto Pro</strong>.</span>
-              </div>
             </div>
-            <div className="flex gap-3">
-              <button onClick={() => setShowPdfPreview(false)} className="flex-1 bg-[#faf8f5] text-ink/50 font-semibold rounded-xl px-5 py-3 hover:bg-[#f0ede8] transition-colors text-sm border border-black/[0.06]">
-                Cerrar
-              </button>
-              <Link href="/precios" className="flex-1 bg-[#1B3A32] text-white font-semibold rounded-xl px-5 py-3 hover:bg-[#24493f] transition-colors text-sm text-center">
-                Desbloquear con Pro
-              </Link>
-            </div>
+            {/* Cerrar arriba a la derecha */}
+            <button onClick={closePdfPreview} className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/[0.05] hover:bg-black/[0.1] flex items-center justify-center transition-colors cursor-pointer">
+              <svg className="w-4 h-4 text-ink/40" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
           </div>
         </div>
       )}
