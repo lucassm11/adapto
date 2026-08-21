@@ -31,6 +31,32 @@ export async function POST(request) {
 
     const stripe = new Stripe(secret);
     const priceId = process.env.STRIPE_PRICE_ID;
+    const productId = process.env.STRIPE_PRODUCT_ID;
+
+    let lineItem;
+    if (priceId) {
+      lineItem = { price: priceId, quantity: 1 };
+    } else if (productId) {
+      const prices = await stripe.prices.list({ product: productId, active: true, limit: 10 });
+      const price = prices.data.find((p) => p.recurring?.interval === 'month') || prices.data.find((p) => p.recurring) || prices.data[0];
+      if (!price) {
+        return Response.json({ error: 'El producto no tiene ningun precio configurado en Stripe.' }, { status: 500 });
+      }
+      lineItem = { price: price.id, quantity: 1 };
+    } else {
+      lineItem = {
+        quantity: 1,
+        price_data: {
+          currency: 'eur',
+          unit_amount: 3500,
+          recurring: { interval: 'month' },
+          product_data: {
+            name: 'Adapto Pro',
+            description: 'Adaptaciones ilimitadas, 16 perfiles NEAE, PDF completo, Diagnosticador IA y AdapBot con contexto.',
+          },
+        },
+      };
+    }
 
     const sessionConfig = {
       mode: 'subscription',
@@ -40,22 +66,7 @@ export async function POST(request) {
       success_url: `${APP_URL}/precios?exito=1&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${APP_URL}/precios?cancelado=1`,
       allow_promotion_codes: true,
-      line_items: [
-        priceId
-          ? { price: priceId, quantity: 1 }
-          : {
-              quantity: 1,
-              price_data: {
-                currency: 'eur',
-                unit_amount: 3500,
-                recurring: { interval: 'month' },
-                product_data: {
-                  name: 'Adapto Pro',
-                  description: 'Adaptaciones ilimitadas, 16 perfiles NEAE, PDF completo, Diagnosticador IA y AdapBot con contexto.',
-                },
-              },
-            },
-      ],
+      line_items: [lineItem],
     };
     if (email) sessionConfig.customer_email = email;
 
