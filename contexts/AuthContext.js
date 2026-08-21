@@ -129,9 +129,18 @@ export function AuthProvider({ children }) {
     setPlan('gratis');
   }
 
+  async function refreshPlan() {
+    if (!user) return;
+    try {
+      const ref = doc(db, 'usuarios', user.uid);
+      const snap = await getDoc(ref);
+      setPlan(snap.exists() ? snap.data().plan || 'gratis' : 'gratis');
+    } catch {}
+  }
+
   return (
     <AuthContext.Provider
-      value={{ user, plan, loading, signInWithGoogle, registerWithEmail, loginWithEmail, resetPassword, signOut }}
+      value={{ user, plan, loading, signInWithGoogle, registerWithEmail, loginWithEmail, resetPassword, signOut, refreshPlan }}
     >
       {children}
     </AuthContext.Provider>

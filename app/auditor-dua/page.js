@@ -1074,7 +1074,10 @@ export default function AuditorDuaPage() {
                 <li className="flex items-center gap-2"><svg className="w-3.5 h-3.5 text-[#1B3A32] shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg> AdapBot con contexto completo</li>
               </ul>
             </div>
-            <button onClick={() => setLimiteAlcanzado(false)} className="w-full bg-[#1a1a1a] text-white font-semibold rounded-xl px-6 py-3.5 hover:bg-[#1a1a1a]/90 transition-colors text-sm cursor-pointer">Cerrar</button>
+            <div className="flex gap-3">
+              <button onClick={() => setLimiteAlcanzado(false)} className="flex-1 bg-[#faf8f5] text-[#1a1a1a]/50 font-semibold rounded-xl px-5 py-3.5 hover:bg-[#f0ede8] transition-colors text-sm border border-black/[0.05] cursor-pointer">Cerrar</button>
+              <Link href="/precios" className="flex-1 bg-[#1B3A32] text-white font-semibold rounded-xl px-5 py-3.5 hover:bg-[#24493f] hover:-translate-y-0.5 transition-all duration-300 text-sm text-center shadow-lg shadow-[#1B3A32]/20">Pasar a Pro</Link>
+            </div>
           </div>
         </div>
       )}

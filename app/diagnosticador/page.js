@@ -391,7 +391,7 @@ export default function DiagnosticadorPage() {
           </div>
           <h1 className="font-display text-3xl tracking-tight mb-3">Diagnosticador IA</h1>
           <p className="text-sm text-[#1a1a1a]/40 mb-8 leading-relaxed">Esta herramienta es exclusiva para cuentas <strong className="text-[#1a1a1a]/60">Pro</strong>. Sube un examen y la IA analizara los patrones de respuesta para sugerir posibles perfiles NEAE.</p>
-          <Link href="/auditor-dua" className="inline-flex items-center gap-2 bg-[#1B3A32] text-white font-semibold rounded-full px-8 py-3.5 hover:bg-[#24493f] transition-all duration-300 text-sm">
+          <Link href="/precios" className="inline-flex items-center gap-2 bg-[#1B3A32] text-white font-semibold rounded-full px-8 py-3.5 hover:bg-[#24493f] hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#1B3A32]/25 transition-all duration-300 text-sm">
             Actualizar a Pro
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
           </Link>

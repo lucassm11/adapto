@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import Link from 'next/link';
 
 const SUGGESTIONS_MAP = {
   'TDAH': ['Por que se reducen las preguntas?', 'Que adaptaciones son validas para inspeccion?', 'Como adaptar un examen de matematicas?'],
@@ -179,7 +180,13 @@ export default function AdapBot({ perfil, resultado, curso, materia, esPro, floa
                   {esPro ? (
                     <p className="text-xs text-[#1a1a1a]/35 leading-relaxed max-w-[240px]">Preguntame sobre las adaptaciones aplicadas, el perfil del alumno o normativa DUA.</p>
                   ) : (
-                    <p className="text-xs text-[#1a1a1a]/35 leading-relaxed max-w-[240px]">Preguntas generales sobre adaptaciones educativas y perfiles NEAE. Para contexto personalizado, actualiza a Pro.</p>
+                    <>
+                      <p className="text-xs text-[#1a1a1a]/35 leading-relaxed max-w-[240px]">Preguntas generales sobre adaptaciones educativas y perfiles NEAE. Para contexto personalizado, actualiza a Pro.</p>
+                      <Link href="/precios" className="mt-4 inline-flex items-center gap-1.5 text-[11px] font-bold bg-[#1B3A32] text-white rounded-full px-4 py-2 hover:bg-[#24493f] hover:-translate-y-0.5 transition-all duration-300 shadow-md shadow-[#1B3A32]/20">
+                        Pasar a Pro
+                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                      </Link>
+                    </>
                   )}
                   <div className="flex flex-wrap gap-2 mt-5 justify-center">
                     {suggestions.map((s) => (
