@@ -16,6 +16,7 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [googleError, setGoogleError] = useState('');
 
   useEffect(() => {
     if (!loading && user) router.push('/auditor-dua');
@@ -67,7 +68,12 @@ export default function LoginPage() {
   const handleGoogle = async () => {
     setError('');
     setSuccess('');
-    await signInWithGoogle();
+    setGoogleError('');
+    try {
+      await signInWithGoogle();
+    } catch (err) {
+      setGoogleError(err.code || err.message || 'Error desconocido con Google');
+    }
   };
 
   return (
@@ -109,6 +115,13 @@ export default function LoginPage() {
             </svg>
             Continuar con Google
           </button>
+
+          {googleError && (
+            <div className="rounded-xl bg-red-pen/[0.06] border border-red-pen/10 p-3 text-xs text-red-pen">
+              <p className="font-semibold mb-1">Error con Google:</p>
+              <p className="break-all">{googleError}</p>
+            </div>
+          )}
 
           <div className="relative">
             <div className="absolute inset-0 flex items-center">

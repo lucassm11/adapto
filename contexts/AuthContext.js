@@ -38,9 +38,12 @@ export function AuthProvider({ children }) {
 
     async function init() {
       try {
-        await getRedirectResult(auth);
+        const result = await getRedirectResult(auth);
+        if (result && result.user) {
+          console.log('[Auth] Redirect result processed:', result.user.email);
+        }
       } catch (err) {
-        console.warn('Redirect result error:', err.code || err.message);
+        console.error('[Auth] Redirect result error:', err.code, err.message);
       }
 
       unsub = onAuthStateChanged(auth, async (firebaseUser) => {
