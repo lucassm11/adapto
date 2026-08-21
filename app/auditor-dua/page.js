@@ -96,6 +96,7 @@ export default function AuditorDuaPage() {
   const [usadas, setUsadas] = useState(0);
   const [activeTab, setActiveTab] = useState('dictamen');
   const [showPdfPreview, setShowPdfPreview] = useState(false);
+  const [previewPdfUrl, setPreviewPdfUrl] = useState(null);
   const [processStep, setProcessStep] = useState(0);
   const fileRef = useRef(null);
   const formCardRef = useRef(null);
@@ -143,6 +144,10 @@ export default function AuditorDuaPage() {
     const iv = setInterval(() => { i++; if (i < 4) setProcessStep(i); }, 1200);
     return () => clearInterval(iv);
   }, [procesando]);
+
+  useEffect(() => {
+    return () => { if (previewPdfUrl) URL.revokeObjectURL(previewPdfUrl); };
+  }, []);
 
   const procesarArchivo = (file) => {
     if (!file) return;
@@ -201,82 +206,104 @@ export default function AuditorDuaPage() {
     } catch (err) { setError(err.message); } finally { setProcesando(false); }
   };
 
+  const buildPdfDoc = () => {
+    if (!resultado) return null;
+    const PINE = '#1B3A32', RED = '#c43e3e', SLATE = '#334155', MUTED = '#64748b', GREEN = '#166534', GREEN_BG = '#dcfce7', AMBER = '#92400e', AMBER_BG = '#fef3c7', BLUE = '#1e40af', BLUE_BG = '#eff6ff';
+    const fecha = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+    const statusBg = resultado.estado_cumplimiento === 'APROBADO' ? '#22c55e' : resultado.estado_cumplimiento === 'REQUIERE_AJUSTES' ? '#f59e0b' : '#ef4444';
+    const content = [];
+    const logoIconDataUrl = generateLogoIcon(26, 6);
+    const logoIconSmallDataUrl = generateLogoIcon(14, 3);
+    const noBorderLayout = function() {
+      return {
+        hLineWidth: () => 0, vLineWidth: () => 0,
+        paddingLeft: () => 0, paddingRight: () => 0,
+        paddingTop: () => 0, paddingBottom: () => 0,
+        fillColor: () => null,
+      };
+    };
+    content.push({ table: { widths: ['*', 110], body: [[
+      { stack: [
+        { table: { widths: [32, '*'], body: [[
+          { image: 'adaptoIcon', width: 26, height: 26, margin: [0, 1, 0, 0], border: [false, false, false, false] },
+          { text: [{ text: 'adap', fontSize: 24, bold: true, color: '#1a1a1a' }, { text: 'to', fontSize: 24, bold: true, color: PINE }], border: [false, false, false, false], margin: [0, 2, 0, 0] }
+        ]] }, layout: noBorderLayout, border: [false, false, false, false], margin: [0, 0, 0, 2] },
+        { text: 'AUDITOR PSICOPEDAGÓGICO  ·  DUA / NEAE  ·  LOMLOE', fontSize: 7, color: MUTED, characterSpacing: 0.3 },
+      ], border: [false, false, false, false] },
+      { text: [{ text: String(resultado.puntuacion_accesibilidad), fontSize: 28, bold: true, color: '#ffffff' }, { text: ' /100', fontSize: 12, bold: true, color: '#ffffff' }], fillColor: statusBg, alignment: 'center', border: [false, false, false, false], margin: [0, 6, 0, 0] }
+    ], [
+      { text: '', border: [false, false, false, false] },
+      { text: 'ÍNDICE DUA', fontSize: 7, bold: true, color: MUTED, alignment: 'center', border: [false, false, false, false], margin: [0, 2, 0, 0], characterSpacing: 1 }
+    ]] }, layout: { hLineWidth: () => 0, vLineWidth: () => 0, paddingLeft: () => 0, paddingRight: () => 0, paddingTop: () => 0, paddingBottom: () => 0 }, margin: [0, 0, 0, 4] });
+    content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 2.5, lineColor: PINE }], margin: [0, 6, 0, 14] });
+    content.push({ table: { widths: ['*', '*', '*', '*'], body: [[{ text: [{ text: 'Asignatura:  ', bold: true, fontSize: 8, color: MUTED }, { text: materia, fontSize: 8, color: SLATE }] }, { text: [{ text: 'Curso:  ', bold: true, fontSize: 8, color: MUTED }, { text: curso, fontSize: 8, color: SLATE }] }, { text: [{ text: 'Perfil:  ', bold: true, fontSize: 8, color: MUTED }, { text: perfil, fontSize: 8, color: SLATE }] }, { text: [{ text: 'Fecha:  ', bold: true, fontSize: 8, color: MUTED }, { text: fecha, fontSize: 8, color: SLATE }] }]] }, layout: { hLineWidth: () => 0.5, vLineWidth: () => 0.5, hLineColor: () => '#e2e8f0', vLineColor: () => '#e2e8f0', fillColor: () => '#f8fafc', paddingLeft: () => 8, paddingRight: () => 8, paddingTop: () => 6, paddingBottom: () => 6 }, margin: [0, 0, 0, 18] });
+    content.push({ table: { widths: ['*'], body: [[{ text: [{ text: `Veredicto:  `, bold: true, fontSize: 10, color: '#ffffff' }, { text: (resultado.estado_cumplimiento || '').replace('_', ' '), bold: true, fontSize: 10, color: '#ffffff' }], fillColor: statusBg, alignment: 'center', border: [false, false, false, false] }]] }, layout: { hLineWidth: () => 0, vLineWidth: () => 0, paddingLeft: () => 12, paddingRight: () => 12, paddingTop: () => 6, paddingBottom: () => 6 }, margin: [0, 0, 0, 16] });
+    content.push({ text: '1. DICTAMEN PSICOPEDAGÓGICO', fontSize: 11, bold: true, color: PINE, margin: [0, 0, 0, 8], characterSpacing: 0.5 });
+    content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1.5, lineColor: PINE }], margin: [0, 0, 0, 8] });
+    content.push({ text: resultado.dictamen_general, fontSize: 9.5, color: SLATE, alignment: 'justify', lineHeight: 1.5, margin: [0, 0, 0, 18] });
+    content.push({ text: '2. DESGLOSE DE CRITERIOS TÉCNICOS LOMLOE / DUA', fontSize: 11, bold: true, color: PINE, margin: [0, 0, 0, 8], characterSpacing: 0.5 });
+    content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1.5, lineColor: PINE }], margin: [0, 0, 0, 8] });
+    resultado.auditoria_por_criterio.forEach((c) => {
+      const bc = c.cumple ? GREEN : AMBER, bb = c.cumple ? GREEN_BG : AMBER_BG;
+      content.push({ margin: [0, 0, 0, 8], table: { widths: ['*'], body: [[{ text: [{ text: c.criterio, bold: true, fontSize: 9.5, color: SLATE }, { text: `     ${c.cumple ? 'Conforme' : 'Revisar'}`, bold: true, fontSize: 8, color: bc, fillColor: bb }], border: [false, false, false, false] }], [{ text: [{ text: 'Diagnóstico:  ', bold: true, fontSize: 8.5, color: PINE }, { text: c.observacion, fontSize: 8.5, color: MUTED }], border: [false, false, false, false], margin: [0, 2, 0, 0] }], [{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 495, y2: 0, lineWidth: 0.5, lineColor: '#e2e8f0' }], border: [false, false, false, false], margin: [0, 2, 0, 2] }], [{ text: [{ text: 'Recomendación:  ', bold: true, fontSize: 8.5, color: BLUE }, { text: c.recomendacion_concreta, fontSize: 8.5, color: SLATE }], border: [false, false, false, false], fillColor: BLUE_BG, margin: [6, 4, 6, 4] }]] }, layout: { hLineWidth: () => 0.5, vLineWidth: () => 0.5, hLineColor: () => '#e2e8f0', vLineColor: () => '#e2e8f0', paddingLeft: () => 8, paddingRight: () => 8, paddingTop: () => 4, paddingBottom: () => 4 } });
+    });
+    content.push({ text: '', margin: [0, 6, 0, 0] });
+    content.push({ text: '3. EXAMEN ADAPTADO (LISTO PARA EL ALUMNO)', fontSize: 11, bold: true, color: PINE, margin: [0, 0, 0, 8], characterSpacing: 0.5 });
+    content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1.5, lineColor: PINE }], margin: [0, 0, 0, 8] });
+    if (resultado.examen_adaptado?.length > 0) {
+      resultado.examen_adaptado.forEach((p) => {
+        const PURPLE = '#6b4c9a';
+        const qb = [[{ text: [{ text: `P${p.numero}`, bold: true, fontSize: 10, color: RED }, { text: `   ${p.enunciado_original}`, fontSize: 8, color: '#94a3b8', italics: true }], border: [false, false, false, false] }]];
+        const tags = [];
+        if (p.tipo_adaptacion) tags.push({ text: ` ${p.tipo_adaptacion} `, bold: true, fontSize: 7, color: PINE, decoration: 'underline', decorationColor: PINE });
+        if (p.criterio_dua) tags.push({ text: `  DUA: ${p.criterio_dua} `, bold: true, fontSize: 7, color: PURPLE, decoration: 'underline', decorationColor: PURPLE });
+        if (tags.length > 0) qb.push([{ text: tags, border: [false, false, false, false], margin: [0, 4, 0, 2] }]);
+        qb.push([{ text: [{ text: 'ENUNCIADO ADAPTADO', bold: true, fontSize: 7, color: GREEN }], border: [false, false, false, false], fillColor: '#f0fdf4', margin: [0, 4, 0, 2] }]);
+        qb.push([{ text: p.enunciado_adaptado, fontSize: 9.5, color: SLATE, border: [false, false, false, false], fillColor: '#ffffff', margin: [4, 2, 4, 4], lineHeight: 1.4 }]);
+        const complexity = [];
+        if (p.complejidad_original != null) complexity.push({ text: `Original: ${p.complejidad_original}/10`, fontSize: 8, color: '#94a3b8' });
+        if (p.complejidad_adaptada != null) complexity.push({ text: `  →  Adaptado: ${p.complejidad_adaptada}/10`, fontSize: 8, color: GREEN, bold: true });
+        if (complexity.length > 0) qb.push([{ text: complexity, border: [false, false, false, false], margin: [4, 0, 0, 2] }]);
+        if (p.justificacion_adaptacion) qb.push([{ text: [{ text: 'JUSTIFICACIÓN  ', bold: true, fontSize: 7, color: AMBER }, { text: p.justificacion_adaptacion, fontSize: 8.5, color: '#78350f' }], border: [false, false, false, false], fillColor: AMBER_BG, margin: [4, 3, 4, 3] }]);
+        if (p.consejo_aula) qb.push([{ text: [{ text: 'CONSEJO DE AULA  ', bold: true, fontSize: 7, color: PINE }, { text: p.consejo_aula, fontSize: 8.5, color: SLATE }], border: [false, false, false, false], fillColor: '#f0fdf4', margin: [4, 3, 4, 3] }]);
+        content.push({ margin: [0, 0, 0, 10], table: { widths: ['*'], body: qb }, layout: { hLineWidth: () => 0.5, vLineWidth: () => 0.5, hLineColor: () => '#bbf7d0', vLineColor: () => '#bbf7d0', fillColor: () => '#f0fdf4', paddingLeft: () => 6, paddingRight: () => 6, paddingTop: () => 4, paddingBottom: () => 4 } });
+      });
+    } else { content.push({ text: 'No se generó examen adaptado.', fontSize: 9, color: MUTED, italics: true, margin: [0, 0, 0, 10] }); }
+    content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: '#e2e8f0' }], margin: [0, 12, 0, 6] });
+    content.push({ table: { widths: ['auto', '*', 'auto'], body: [[
+      { image: 'adaptoIconSmall', width: 14, height: 14, margin: [0, 1, 0, 0], border: [false, false, false, false] },
+      { text: ' Generado por Adapto', fontSize: 7.5, color: MUTED, margin: [0, 3, 0, 0] },
+      { text: `${fecha}  ·  Este informe es orientativo. La validación final corresponde al orientador del centro.`, fontSize: 7, color: MUTED, alignment: 'right', margin: [0, 3, 0, 0] },
+    ]] }, layout: { hLineWidth: () => 0, vLineWidth: () => 0, paddingLeft: () => 0, paddingRight: () => 0, paddingTop: () => 0, paddingBottom: () => 0 }, margin: [0, 0, 0, 0] });
+    return { content, images: { adaptoIcon: logoIconDataUrl, adaptoIconSmall: logoIconSmallDataUrl }, defaultStyle: { font: 'Roboto', fontSize: 9, color: SLATE }, pageSize: 'A4', pageMargins: [40, 40, 40, 40], background: esPro ? undefined : () => ({ text: 'Adapto - Version de prueba', fontSize: 44, color: '#f3f3f3', alignment: 'center', bold: true, margin: [0, 280, 0, 0], rotation: -35 }), footer: (cp, pc) => ({ text: `Página ${cp} de ${pc}`, fontSize: 7, color: MUTED, alignment: 'center', margin: [0, 15, 0, 0] }) };
+  };
+
   const generarPDF = async () => {
     if (!resultado) return;
     setDescargando(true);
     try {
       const pdfMake = (await import('pdfmake/build/pdfmake')).default;
       await import('pdfmake/build/vfs_fonts');
-      const PINE = '#1B3A32', RED = '#c43e3e', SLATE = '#334155', MUTED = '#64748b', GREEN = '#166534', GREEN_BG = '#dcfce7', AMBER = '#92400e', AMBER_BG = '#fef3c7', BLUE = '#1e40af', BLUE_BG = '#eff6ff';
-      const fecha = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
-      const statusBg = resultado.estado_cumplimiento === 'APROBADO' ? '#22c55e' : resultado.estado_cumplimiento === 'REQUIERE_AJUSTES' ? '#f59e0b' : '#ef4444';
-      const content = [];
-      const logoIconDataUrl = generateLogoIcon(26, 6);
-      const logoIconSmallDataUrl = generateLogoIcon(14, 3);
-      const noBorderLayout = function() {
-        return {
-          hLineWidth: () => 0, vLineWidth: () => 0,
-          paddingLeft: () => 0, paddingRight: () => 0,
-          paddingTop: () => 0, paddingBottom: () => 0,
-          fillColor: () => null,
-        };
-      };
-      content.push({ table: { widths: ['*', 110], body: [[
-        { stack: [
-          { table: { widths: [32, '*'], body: [[
-            { image: 'adaptoIcon', width: 26, height: 26, margin: [0, 1, 0, 0], border: [false, false, false, false] },
-            { text: [{ text: 'adap', fontSize: 24, bold: true, color: '#1a1a1a' }, { text: 'to', fontSize: 24, bold: true, color: PINE }], border: [false, false, false, false], margin: [0, 2, 0, 0] }
-          ]] }, layout: noBorderLayout, border: [false, false, false, false], margin: [0, 0, 0, 2] },
-          { text: 'AUDITOR PSICOPEDAGÓGICO  ·  DUA / NEAE  ·  LOMLOE', fontSize: 7, color: MUTED, characterSpacing: 0.3 },
-        ], border: [false, false, false, false] },
-        { text: [{ text: String(resultado.puntuacion_accesibilidad), fontSize: 28, bold: true, color: '#ffffff' }, { text: ' /100', fontSize: 12, bold: true, color: '#ffffff' }], fillColor: statusBg, alignment: 'center', border: [false, false, false, false], margin: [0, 6, 0, 0] }
-      ], [
-        { text: '', border: [false, false, false, false] },
-        { text: 'ÍNDICE DUA', fontSize: 7, bold: true, color: MUTED, alignment: 'center', border: [false, false, false, false], margin: [0, 2, 0, 0], characterSpacing: 1 }
-      ]] }, layout: { hLineWidth: () => 0, vLineWidth: () => 0, paddingLeft: () => 0, paddingRight: () => 0, paddingTop: () => 0, paddingBottom: () => 0 }, margin: [0, 0, 0, 4] });
-      content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 2.5, lineColor: PINE }], margin: [0, 6, 0, 14] });
-      content.push({ table: { widths: ['*', '*', '*', '*'], body: [[{ text: [{ text: 'Asignatura:  ', bold: true, fontSize: 8, color: MUTED }, { text: materia, fontSize: 8, color: SLATE }] }, { text: [{ text: 'Curso:  ', bold: true, fontSize: 8, color: MUTED }, { text: curso, fontSize: 8, color: SLATE }] }, { text: [{ text: 'Perfil:  ', bold: true, fontSize: 8, color: MUTED }, { text: perfil, fontSize: 8, color: SLATE }] }, { text: [{ text: 'Fecha:  ', bold: true, fontSize: 8, color: MUTED }, { text: fecha, fontSize: 8, color: SLATE }] }]] }, layout: { hLineWidth: () => 0.5, vLineWidth: () => 0.5, hLineColor: () => '#e2e8f0', vLineColor: () => '#e2e8f0', fillColor: () => '#f8fafc', paddingLeft: () => 8, paddingRight: () => 8, paddingTop: () => 6, paddingBottom: () => 6 }, margin: [0, 0, 0, 18] });
-      content.push({ table: { widths: ['*'], body: [[{ text: [{ text: `Veredicto:  `, bold: true, fontSize: 10, color: '#ffffff' }, { text: (resultado.estado_cumplimiento || '').replace('_', ' '), bold: true, fontSize: 10, color: '#ffffff' }], fillColor: statusBg, alignment: 'center', border: [false, false, false, false] }]] }, layout: { hLineWidth: () => 0, vLineWidth: () => 0, paddingLeft: () => 12, paddingRight: () => 12, paddingTop: () => 6, paddingBottom: () => 6 }, margin: [0, 0, 0, 16] });
-      content.push({ text: '1. DICTAMEN PSICOPEDAGÓGICO', fontSize: 11, bold: true, color: PINE, margin: [0, 0, 0, 8], characterSpacing: 0.5 });
-      content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1.5, lineColor: PINE }], margin: [0, 0, 0, 8] });
-      content.push({ text: resultado.dictamen_general, fontSize: 9.5, color: SLATE, alignment: 'justify', lineHeight: 1.5, margin: [0, 0, 0, 18] });
-      content.push({ text: '2. DESGLOSE DE CRITERIOS TÉCNICOS LOMLOE / DUA', fontSize: 11, bold: true, color: PINE, margin: [0, 0, 0, 8], characterSpacing: 0.5 });
-      content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1.5, lineColor: PINE }], margin: [0, 0, 0, 8] });
-      resultado.auditoria_por_criterio.forEach((c) => {
-        const bc = c.cumple ? GREEN : AMBER, bb = c.cumple ? GREEN_BG : AMBER_BG;
-        content.push({ margin: [0, 0, 0, 8], table: { widths: ['*'], body: [[{ text: [{ text: c.criterio, bold: true, fontSize: 9.5, color: SLATE }, { text: `     ${c.cumple ? 'Conforme' : 'Revisar'}`, bold: true, fontSize: 8, color: bc, fillColor: bb }], border: [false, false, false, false] }], [{ text: [{ text: 'Diagnóstico:  ', bold: true, fontSize: 8.5, color: PINE }, { text: c.observacion, fontSize: 8.5, color: MUTED }], border: [false, false, false, false], margin: [0, 2, 0, 0] }], [{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 495, y2: 0, lineWidth: 0.5, lineColor: '#e2e8f0' }], border: [false, false, false, false], margin: [0, 2, 0, 2] }], [{ text: [{ text: 'Recomendación:  ', bold: true, fontSize: 8.5, color: BLUE }, { text: c.recomendacion_concreta, fontSize: 8.5, color: SLATE }], border: [false, false, false, false], fillColor: BLUE_BG, margin: [6, 4, 6, 4] }]] }, layout: { hLineWidth: () => 0.5, vLineWidth: () => 0.5, hLineColor: () => '#e2e8f0', vLineColor: () => '#e2e8f0', paddingLeft: () => 8, paddingRight: () => 8, paddingTop: () => 4, paddingBottom: () => 4 } });
-      });
-      content.push({ text: '', margin: [0, 6, 0, 0] });
-      content.push({ text: '3. EXAMEN ADAPTADO (LISTO PARA EL ALUMNO)', fontSize: 11, bold: true, color: PINE, margin: [0, 0, 0, 8], characterSpacing: 0.5 });
-      content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1.5, lineColor: PINE }], margin: [0, 0, 0, 8] });
-      if (resultado.examen_adaptado?.length > 0) {
-        resultado.examen_adaptado.forEach((p) => {
-          const PURPLE = '#6b4c9a';
-          const qb = [[{ text: [{ text: `P${p.numero}`, bold: true, fontSize: 10, color: RED }, { text: `   ${p.enunciado_original}`, fontSize: 8, color: '#94a3b8', italics: true }], border: [false, false, false, false] }]];
-          const tags = [];
-          if (p.tipo_adaptacion) tags.push({ text: ` ${p.tipo_adaptacion} `, bold: true, fontSize: 7, color: PINE, decoration: 'underline', decorationColor: PINE });
-          if (p.criterio_dua) tags.push({ text: `  DUA: ${p.criterio_dua} `, bold: true, fontSize: 7, color: PURPLE, decoration: 'underline', decorationColor: PURPLE });
-          if (tags.length > 0) qb.push([{ text: tags, border: [false, false, false, false], margin: [0, 4, 0, 2] }]);
-          qb.push([{ text: [{ text: 'ENUNCIADO ADAPTADO', bold: true, fontSize: 7, color: GREEN }], border: [false, false, false, false], fillColor: '#f0fdf4', margin: [0, 4, 0, 2] }]);
-          qb.push([{ text: p.enunciado_adaptado, fontSize: 9.5, color: SLATE, border: [false, false, false, false], fillColor: '#ffffff', margin: [4, 2, 4, 4], lineHeight: 1.4 }]);
-          const complexity = [];
-          if (p.complejidad_original != null) complexity.push({ text: `Original: ${p.complejidad_original}/10`, fontSize: 8, color: '#94a3b8' });
-          if (p.complejidad_adaptada != null) complexity.push({ text: `  →  Adaptado: ${p.complejidad_adaptada}/10`, fontSize: 8, color: GREEN, bold: true });
-          if (complexity.length > 0) qb.push([{ text: complexity, border: [false, false, false, false], margin: [4, 0, 0, 2] }]);
-          if (p.justificacion_adaptacion) qb.push([{ text: [{ text: 'JUSTIFICACIÓN  ', bold: true, fontSize: 7, color: AMBER }, { text: p.justificacion_adaptacion, fontSize: 8.5, color: '#78350f' }], border: [false, false, false, false], fillColor: AMBER_BG, margin: [4, 3, 4, 3] }]);
-          if (p.consejo_aula) qb.push([{ text: [{ text: 'CONSEJO DE AULA  ', bold: true, fontSize: 7, color: PINE }, { text: p.consejo_aula, fontSize: 8.5, color: SLATE }], border: [false, false, false, false], fillColor: '#f0fdf4', margin: [4, 3, 4, 3] }]);
-          content.push({ margin: [0, 0, 0, 10], table: { widths: ['*'], body: qb }, layout: { hLineWidth: () => 0.5, vLineWidth: () => 0.5, hLineColor: () => '#bbf7d0', vLineColor: () => '#bbf7d0', fillColor: () => '#f0fdf4', paddingLeft: () => 6, paddingRight: () => 6, paddingTop: () => 4, paddingBottom: () => 4 } });
-        });
-      } else { content.push({ text: 'No se generó examen adaptado.', fontSize: 9, color: MUTED, italics: true, margin: [0, 0, 0, 10] }); }
-      content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: '#e2e8f0' }], margin: [0, 12, 0, 6] });
-      content.push({ table: { widths: ['auto', '*', 'auto'], body: [[
-        { image: 'adaptoIconSmall', width: 14, height: 14, margin: [0, 1, 0, 0], border: [false, false, false, false] },
-        { text: ' Generado por Adapto', fontSize: 7.5, color: MUTED, margin: [0, 3, 0, 0] },
-        { text: `${fecha}  ·  Este informe es orientativo. La validación final corresponde al orientador del centro.`, fontSize: 7, color: MUTED, alignment: 'right', margin: [0, 3, 0, 0] },
-      ]] }, layout: { hLineWidth: () => 0, vLineWidth: () => 0, paddingLeft: () => 0, paddingRight: () => 0, paddingTop: () => 0, paddingBottom: () => 0 }, margin: [0, 0, 0, 0] });
-      const docDefinition = { content, images: { adaptoIcon: logoIconDataUrl, adaptoIconSmall: logoIconSmallDataUrl }, defaultStyle: { font: 'Roboto', fontSize: 9, color: SLATE }, pageSize: 'A4', pageMargins: [40, 40, 40, 40], background: esPro ? undefined : () => ({ text: 'Adapto - Version de prueba', fontSize: 44, color: '#f3f3f3', alignment: 'center', bold: true, margin: [0, 280, 0, 0], rotation: -35 }), footer: (cp, pc) => ({ text: `Página ${cp} de ${pc}`, fontSize: 7, color: MUTED, alignment: 'center', margin: [0, 15, 0, 0] }) };
+      const docDefinition = buildPdfDoc();
       pdfMake.createPdf(docDefinition).download(`Adapto_${materia.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.pdf`);
     } catch (err) { console.error('Error generating PDF:', err); } finally { setDescargando(false); }
+  };
+
+  const openPdfPreview = async () => {
+    if (!resultado) return;
+    setDescargando(true);
+    try {
+      const pdfMake = (await import('pdfmake/build/pdfmake')).default;
+      await import('pdfmake/build/vfs_fonts');
+      const docDefinition = buildPdfDoc();
+      const blob = await new Promise((resolve) => {
+        pdfMake.createPdf(docDefinition).getBlob(resolve);
+      });
+      const url = URL.createObjectURL(blob);
+      if (previewPdfUrl) URL.revokeObjectURL(previewPdfUrl);
+      setPreviewPdfUrl(url);
+      setShowPdfPreview(true);
+    } catch (err) { console.error('Error generating preview PDF:', err); } finally { setDescargando(false); }
   };
 
   const score = resultado?.puntuacion_accesibilidad || 0;
@@ -748,9 +775,9 @@ export default function AuditorDuaPage() {
                             {descargando ? <><div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" /> Generando...</> : <><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg> PDF</>}
                           </button>
                         ) : (
-                          <button onClick={() => setShowPdfPreview(true)} className="shrink-0 group flex items-center gap-2 bg-[#1B3A32] text-white font-semibold rounded-xl px-5 py-3 hover:bg-[#24493f] hover:shadow-lg hover:shadow-[#1B3A32]/20 transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 active:scale-95 text-sm cursor-pointer relative">
+                          <button onClick={openPdfPreview} className="shrink-0 group flex items-center gap-2 bg-[#1B3A32] text-white font-semibold rounded-xl px-5 py-3 hover:bg-[#24493f] hover:shadow-lg hover:shadow-[#1B3A32]/20 transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 active:scale-95 text-sm cursor-pointer relative">
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
-                            Vista previa
+                            {descargando ? 'Generando...' : 'Vista previa'}
                             <span className="absolute -top-2 -right-2 bg-gold text-ink text-[8px] font-bold px-1.5 py-0.5 rounded-full shadow-sm">PRO</span>
                           </button>
                         )}
@@ -990,52 +1017,26 @@ export default function AuditorDuaPage() {
         )}
       </main>
 
-      {/* PDF PREVIEW MODAL (free users) */}
-      {showPdfPreview && resultado && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setShowPdfPreview(false)}>
-          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-2xl flex flex-col" onClick={(e) => e.stopPropagation()}>
+      {/* PDF PREVIEW MODAL (free users) - real PDF + watermark overlay */}
+      {showPdfPreview && previewPdfUrl && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => { URL.revokeObjectURL(previewPdfUrl); setPreviewPdfUrl(null); setShowPdfPreview(false); }}>
+          <div className="bg-white rounded-3xl max-w-3xl w-full h-[85vh] overflow-hidden shadow-2xl flex flex-col" onClick={(e) => e.stopPropagation()}>
             <div className="px-6 py-4 border-b border-black/[0.06] flex items-center justify-between shrink-0">
               <div>
                 <h2 className="font-display text-lg text-ink">Vista previa del informe</h2>
                 <p className="text-xs text-ink/40 mt-0.5">Actualiza a Pro para descargar el PDF completo</p>
               </div>
-              <button onClick={() => setShowPdfPreview(false)} className="w-8 h-8 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center transition-colors cursor-pointer">
+              <button onClick={() => { URL.revokeObjectURL(previewPdfUrl); setPreviewPdfUrl(null); setShowPdfPreview(false); }} className="w-8 h-8 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center transition-colors cursor-pointer">
                 <svg className="w-4 h-4 text-ink/40" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto p-6 relative">
-              {/* Watermark */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                <div className="text-[80px] font-display font-bold text-[#1B3A32]/[0.06] -rotate-12 select-none tracking-tight">adapto</div>
-              </div>
-              <div className="relative z-0 space-y-5 opacity-60">
-                {/* Score */}
-                <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-mono-score text-2xl font-bold" style={{ backgroundColor: resultado.estado_cumplimiento === 'APROBADO' ? '#22c55e' : resultado.estado_cumplimiento === 'REQUIERE_AJUSTES' ? '#f59e0b' : '#ef4444' }}>
-                    {resultado.puntuacion_accesibilidad}
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-ink/30">Indice DUA</p>
-                    <p className="text-xs text-ink/50">{materia} · {curso}</p>
-                  </div>
-                </div>
-                {/* Dictamen */}
-                <div className="rounded-xl border border-black/[0.06] p-4">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-pine mb-2">Dictamen psicopedagogico</p>
-                  <p className="text-xs text-ink/50 leading-relaxed line-clamp-4">{resultado.dictamen_general}</p>
-                </div>
-                {/* First adapted question */}
-                {resultado.examen_adaptado?.[0] && (
-                  <div className="rounded-xl border border-pine/10 bg-pine/[0.02] p-4">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-pine mb-2">P1 adaptada</p>
-                    <p className="text-xs text-ink/60 leading-relaxed">{resultado.examen_adaptado[0].enunciado_adaptado}</p>
-                    {resultado.examen_adaptado[0].justificacion_adaptacion && (
-                      <p className="text-[10px] text-gold/70 mt-2 italic line-clamp-2">{resultado.examen_adaptado[0].justificacion_adaptacion}</p>
-                    )}
-                  </div>
-                )}
-                <div className="rounded-xl border border-black/[0.06] p-4 text-center">
-                  <p className="text-xs text-ink/30 italic">... resto del informe bloqueado ...</p>
+            <div className="flex-1 relative bg-[#e5e5e5]">
+              <iframe src={previewPdfUrl} className="w-full h-full border-0" title="Vista previa del informe" />
+              {/* Watermark overlay */}
+              <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-10">
+                <div className="text-center">
+                  <p className="text-[72px] font-display font-bold text-[#1B3A32]/[0.08] -rotate-[20deg] select-none leading-none tracking-tight">adapto</p>
+                  <p className="text-sm font-semibold text-[#1B3A32]/[0.15] mt-2 select-none tracking-wide">INFORME COMPLETO DESBLOQUEADO CON PRO</p>
                 </div>
               </div>
             </div>
