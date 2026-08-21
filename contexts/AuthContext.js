@@ -4,12 +4,14 @@ import { createContext, useContext, useState, useEffect, useRef } from 'react';
 import {
   onAuthStateChanged,
   signInWithPopup,
+  signInWithRedirect,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   updateProfile,
   signOut as firebaseSignOut,
   GoogleAuthProvider,
+  getRedirectResult,
 } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
@@ -32,6 +34,7 @@ export function AuthProvider({ children }) {
   const popupBusy = useRef(false);
 
   useEffect(() => {
+    getRedirectResult(auth).catch(() => {});
     const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
       if (firebaseUser) {
@@ -77,11 +80,9 @@ export function AuthProvider({ children }) {
     try {
       const provider = new GoogleAuthProvider();
       provider.setCustomParameters({ prompt: 'select_account' });
-      await signInWithPopup(auth, provider);
+      await signInWithRedirect(auth, provider);
     } catch (err) {
-      if (err.code !== 'auth/popup-closed-by-user' && err.code !== 'auth/cancelled-popup-request') {
-        console.error('Google sign-in error:', err);
-      }
+      console.error('Google sign-in error:', err);
     } finally {
       popupBusy.current = false;
     }
