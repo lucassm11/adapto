@@ -832,7 +832,7 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <Link href="/auditor-dua" className="btn-press block text-center bg-white text-pine hover:bg-white/90 font-semibold rounded-xl px-4 py-3 transition-colors duration-200 text-sm">Empezar con Pro</Link>
+              <Link href="/precios" className="btn-press block text-center bg-white text-pine hover:bg-white/90 font-semibold rounded-xl px-4 py-3 transition-colors duration-200 text-sm">Empezar con Pro</Link>
             </div>
             {/* CENTROS */}
             <div className="anim-g d3 card-lift bg-paper rounded-2xl border border-black/[0.06] p-8">
