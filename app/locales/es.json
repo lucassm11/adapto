@@ -1,0 +1,138 @@
+{
+  "nav": {
+    "inicio": "Inicio",
+    "comoFunciona": "Cómo funciona",
+    "perfiles": "Perfiles NEAE",
+    "diagnosticador": "Diagnosticador IA",
+    "precios": "Precios",
+    "contacto": "Contacto",
+    "login": "Acceder",
+    "pasarPro": "Pasar a Pro"
+  },
+  "hero": {
+    "badge": "Adaptación automática de exámenes",
+    "title1": "El examen se",
+    "titleHighlight": " adapta",
+    "title2": " al alumno",
+    "subtitle": "Subes un examen, seleccionas el perfil del alumno y la IA lo reescribe con adaptaciones reales conforme al marco DUA, NEAE y LOMLOE.",
+    "cta": "Adaptar un examen ahora",
+    "ctaSecondary": "Ver cómo funciona",
+    "freeBadge": "Gratis · Sin tarjeta de crédito",
+    "stats": {
+      "perfiles": "perfiles NEAE",
+      "marco": "Marco DUA / LOMLOE",
+      "tiempo": "de generación"
+    }
+  },
+  "sections": {
+    "comoFunciona": {
+      "label": "Cómo funciona",
+      "title": "Adapta un examen en 3 pasos",
+      "subtitle": "Sin configuraciones complejas. Subes, seleccionas y listo.",
+      "step1": {
+        "title": "Sube el examen",
+        "desc": "Arrastra el PDF o pega el texto del examen que quieres adaptar."
+      },
+      "step2": {
+        "title": "Selecciona el perfil",
+        "desc": "Elige entre 16 perfiles NEAE: TDAH, dislexia, TEA, discalculia y más."
+      },
+      "step3": {
+        "title": "Recibe la adaptación",
+        "desc": "La IA genera el examen adaptado con informe completo y rationale de cada cambio."
+      }
+    },
+    "perfiles": {
+      "label": "Perfiles NEAE",
+      "title": "16 perfiles con respaldo científico",
+      "subtitle": "Cada perfil incluye evidencia de estudios revisados por pares y adaptaciones recomendadas."
+    },
+    "pricing": {
+      "label": "Precios",
+      "title": "Elige tu plan",
+      "subtitle": "Empieza gratis. Actualiza cuando lo necesites.",
+      "free": {
+        "name": "Gratis",
+        "price": "0 €",
+        "period": "para siempre",
+        "cta": "Empezar gratis",
+        "features": [
+          "3 adaptaciones de examen al mes",
+          "3 perfiles TDAH disponibles",
+          "Previsualización del informe",
+          "Generación con IA adaptada al perfil"
+        ]
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "35 €",
+        "period": "/mes IVA incluido",
+        "cta": "Empezar con Pro",
+        "features": [
+          "Adaptaciones ilimitadas",
+          "16 perfiles NEAE completos",
+          "Descarga PDF del informe completo",
+          "Diagnóstico IA del examen",
+          "AdapBot con contexto del perfil",
+          "Soporte prioritario"
+        ]
+      }
+    }
+  },
+  "footer": {
+    "description": "Herramienta de IA para adaptar exámenes conforme a los marcos DUA, NEAE y LOMLOE.",
+    "producto": "Producto",
+    "recursos": "Recursos",
+    "legal": "Legal",
+    "copyright": "© 2026 Adapto. Todos los derechos reservados."
+  },
+  "diagnosticador": {
+    "title": "Diagnosticador IA",
+    "subtitle": "Sube un examen y la IA analiza qué adaptaciones NEAE son necesarias para cada perfil.",
+    "dropzone": "Arrastra tu examen aquí",
+    "dropzoneHint": "PDF o texto · Máx. 5 MB",
+    "diagnosing": "Diagnosticando...",
+    "proOnly": "Función exclusiva del plan Pro",
+    "proCta": "Actualizar a Pro"
+  },
+  "precios": {
+    "title": "Precios",
+    "subtitle": "Elige el plan que mejor se adapte a tus necesidades",
+    "badgePro": "Más popular",
+    "badgeFree": "Gratis",
+    "ctaPro": "Pasar a Pro",
+    "ctaFree": "Empezar gratis",
+    "faqTitle": "Preguntas frecuentes",
+    "questions": {
+      "q1": "¿Puedo probar Pro antes de pagar?",
+      "a1": "Sí, puedes empezar con el plan gratuito y cuando lo necesites actualizar a Pro.",
+      "q2": "¿Cómo funciona el límite de adaptaciones?",
+      "a2": "El plan gratuito incluye 3 adaptaciones al mes. Se reinicia automáticamente cada mes.",
+      "q3": "¿Las adaptaciones son válidas para inspección educativa?",
+      "a3": "Sí, las adaptaciones siguen el marco DUA y LOMLOE. El informe incluye el rationale de cada cambio.",
+      "q4": "¿Puedo cancelar en cualquier momento?",
+      "a4": "Sí, sin permanencia. Cancelas cuando quieras y mantienes el acceso hasta fin de periodo.",
+      "q5": "¿Qué formatos acepta?",
+      "a5": "Aceptamos exámenes en formato PDF y texto. La IA adapta el contenido manteniendo la estructura original."
+    }
+  },
+  "login": {
+    "title": "Acceder a Adapto",
+    "subtitle": "Inicia sesión para adaptar exámenes con IA",
+    "email": "Email",
+    "password": "Contraseña",
+    "submit": "Entrar",
+    "google": "Continuar con Google",
+    "noAccount": "¿No tienes cuenta?",
+    "register": "Regístrate gratis"
+  },
+  "contacto": {
+    "title": "Contacto",
+    "subtitle": "¿Tienes dudas? Escríbenos.",
+    "name": "Nombre",
+    "email": "Email",
+    "message": "Mensaje",
+    "submit": "Enviar mensaje",
+    "success": "Mensaje enviado correctamente"
+  }
+}

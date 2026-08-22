@@ -1,0 +1,138 @@
+{
+  "nav": {
+    "inicio": "Home",
+    "comoFunciona": "How it works",
+    "perfiles": "NEAE Profiles",
+    "diagnosticador": "AI Diagnostic",
+    "precios": "Pricing",
+    "contacto": "Contact",
+    "login": "Sign in",
+    "pasarPro": "Upgrade to Pro"
+  },
+  "hero": {
+    "badge": "Automatic exam adaptation",
+    "title1": "The exam",
+    "titleHighlight": " adapts",
+    "title2": " to the student",
+    "subtitle": "Upload an exam, select the student's profile and the AI rewrites it with real adaptations aligned to UDL, NEAE and LOMLOE frameworks.",
+    "cta": "Adapt an exam now",
+    "ctaSecondary": "See how it works",
+    "freeBadge": "Free - No credit card required",
+    "stats": {
+      "perfiles": "NEAE profiles",
+      "marco": "UDL / LOMLOE framework",
+      "tiempo": "generation time"
+    }
+  },
+  "sections": {
+    "comoFunciona": {
+      "label": "How it works",
+      "title": "Adapt an exam in 3 steps",
+      "subtitle": "No complex settings. Upload, select and done.",
+      "step1": {
+        "title": "Upload the exam",
+        "desc": "Drag the PDF or paste the exam text you want to adapt."
+      },
+      "step2": {
+        "title": "Select the profile",
+        "desc": "Choose from 16 NEAE profiles: ADHD, dyslexia, ASD, dyscalculia and more."
+      },
+      "step3": {
+        "title": "Get the adaptation",
+        "desc": "The AI generates the adapted exam with a full report and rationale for every change."
+      }
+    },
+    "perfiles": {
+      "label": "NEAE Profiles",
+      "title": "16 profiles backed by science",
+      "subtitle": "Each profile includes peer-reviewed research evidence and recommended adaptations."
+    },
+    "pricing": {
+      "label": "Pricing",
+      "title": "Choose your plan",
+      "subtitle": "Start free. Upgrade when you need to.",
+      "free": {
+        "name": "Free",
+        "price": "0 EUR",
+        "period": "forever",
+        "cta": "Start for free",
+        "features": [
+          "3 exam adaptations per month",
+          "3 ADHD profiles available",
+          "Report preview",
+          "AI generation adapted to profile"
+        ]
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "35 EUR",
+        "period": "/month VAT included",
+        "cta": "Upgrade to Pro",
+        "features": [
+          "Unlimited adaptations",
+          "16 full NEAE profiles",
+          "Download full PDF report",
+          "AI exam diagnostic",
+          "AdapBot with profile context",
+          "Priority support"
+        ]
+      }
+    }
+  },
+  "footer": {
+    "description": "AI tool to adapt exams aligned with UDL, NEAE and LOMLOE frameworks.",
+    "producto": "Product",
+    "recursos": "Resources",
+    "legal": "Legal",
+    "copyright": "2026 Adapto. All rights reserved."
+  },
+  "diagnosticador": {
+    "title": "AI Diagnostic",
+    "subtitle": "Upload an exam and the AI analyzes what NEAE adaptations are needed for each profile.",
+    "dropzone": "Drag your exam here",
+    "dropzoneHint": "PDF or text - Max 5 MB",
+    "diagnosing": "Diagnosing...",
+    "proOnly": "Pro plan feature",
+    "proCta": "Upgrade to Pro"
+  },
+  "precios": {
+    "title": "Pricing",
+    "subtitle": "Choose the plan that best fits your needs",
+    "badgePro": "Most popular",
+    "badgeFree": "Free",
+    "ctaPro": "Upgrade to Pro",
+    "ctaFree": "Start for free",
+    "faqTitle": "Frequently asked questions",
+    "questions": {
+      "q1": "Can I try Pro before paying?",
+      "a1": "Yes, you can start with the free plan and upgrade to Pro whenever you need to.",
+      "q2": "How does the adaptation limit work?",
+      "a2": "The free plan includes 3 adaptations per month. It resets automatically every month.",
+      "q3": "Are adaptations valid for educational inspection?",
+      "a3": "Yes, adaptations follow the UDL and LOMLOE framework. The report includes the rationale for every change.",
+      "q4": "Can I cancel anytime?",
+      "a4": "Yes, no lock-in. Cancel whenever you want and keep access until the end of the billing period.",
+      "q5": "What formats do you accept?",
+      "a5": "We accept exams in PDF and text format. The AI adapts the content while preserving the original structure."
+    }
+  },
+  "login": {
+    "title": "Sign in to Adapto",
+    "subtitle": "Log in to adapt exams with AI",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "google": "Continue with Google",
+    "noAccount": "Don't have an account?",
+    "register": "Sign up for free"
+  },
+  "contacto": {
+    "title": "Contact",
+    "subtitle": "Have questions? Write to us.",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "submit": "Send message",
+    "success": "Message sent successfully"
+  }
+}

@@ -1,7 +1,9 @@
 import { Fraunces, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { LocaleProvider } from "@/contexts/LocaleContext";
 import CookieBanner from "@/app/components/CookieBanner";
+import LocaleSwitcher from "@/app/components/LocaleSwitcher";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -121,8 +123,11 @@ export default function RootLayout({ children }) {
         className={`${fraunces.variable} ${inter.variable} ${plexMono.variable} antialiased`}
       >
         <AuthProvider>
-          {children}
-          <CookieBanner />
+          <LocaleProvider>
+            {children}
+            <LocaleSwitcher />
+            <CookieBanner />
+          </LocaleProvider>
         </AuthProvider>
       </body>
     </html>

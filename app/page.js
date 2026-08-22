@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import AdapBot from './components/AdapBot';
+import { useLocale } from '@/contexts/LocaleContext';
 
 /* ═══════════════════════════════════════════════════
    SCROLL PROGRESS BAR
@@ -286,6 +287,7 @@ const FAQS = [
 export default function Home() {
   const [openFaq, setOpenFaq] = useState(null);
   const sectionsRef = useRef([]);
+  const { locale, t } = useLocale();
 
   const addSectionRef = useCallback((el) => {
     if (el && !sectionsRef.current.includes(el)) sectionsRef.current.push(el);
@@ -329,11 +331,11 @@ export default function Home() {
           </Link>
           <nav className="hidden md:flex items-center gap-1">
             {[
-              { label: 'Como funciona', href: '#como-funciona' },
-              { label: 'Diagnosticador IA', href: '/diagnosticador' },
-              { label: 'Perfiles', href: '#perfiles' },
+              { label: t.nav.comoFunciona, href: '#como-funciona' },
+              { label: t.nav.diagnosticador, href: '/diagnosticador' },
+              { label: t.nav.perfiles, href: '#perfiles' },
               { label: 'Resultado', href: '#resultado' },
-              { label: 'Precios', href: '#precios' },
+              { label: t.nav.precios, href: '#precios' },
             ].map((s) => (
               s.href.startsWith('/') ? (
                 <Link key={s.label} href={s.href} className="nav-link text-sm text-ink/50 hover:text-ink px-4 py-2 rounded-full transition-colors duration-300">{s.label}</Link>
@@ -343,10 +345,10 @@ export default function Home() {
             ))}
           </nav>
           <div className="flex items-center gap-3">
-            <Link href="/login" className="text-sm text-ink/60 hover:text-ink px-4 py-2 transition-colors hidden sm:block">Iniciar sesion</Link>
+            <Link href="/login" className="text-sm text-ink/60 hover:text-ink px-4 py-2 transition-colors hidden sm:block">{t.nav.login}</Link>
             <MagneticButton>
               <Link href="/auditor-dua" className="btn-press text-sm font-semibold bg-pine text-white rounded-full px-5 py-2.5 hover:bg-pine-light hover:shadow-lg hover:shadow-pine/20 transition-all duration-300 block">
-                Adaptar gratis
+                {t.hero.cta}
               </Link>
             </MagneticButton>
           </div>
@@ -358,24 +360,23 @@ export default function Home() {
         <div className="relative mx-auto max-w-7xl px-6">
           <div className="max-w-3xl">
             <h1 className="hero-anim hero-delay-1 font-display text-[3.5rem] md:text-[5.5rem] leading-[0.95] tracking-tight mb-8">
-              <span className="text-ink">El examen</span><br />
-              <span className="text-ink">se adapta </span>
-              <span className="text-pine">al alumno.</span>
+              <span className="text-ink">{t.hero.title1}</span><br />
+              <span className="text-ink">{t.hero.titleHighlight}</span>
+              <span className="text-pine">{t.hero.title2}</span>
             </h1>
             <p className="hero-anim hero-delay-2 text-xl md:text-2xl text-ink/60 max-w-2xl leading-relaxed mb-12">
-              Subes un examen. Seleccionas el perfil del alumno.<br className="hidden md:block" />
-              Adapto lo reescribe con adaptaciones reales en segundos.
+              {t.hero.subtitle}
             </p>
             <div className="hero-anim hero-delay-3 flex flex-wrap items-center gap-4 mb-12">
               <MagneticButton>
                 <Link href="/auditor-dua" className="btn-press group inline-flex items-center gap-3 bg-pine text-white font-semibold rounded-full px-8 py-4 hover:bg-pine-light hover:shadow-xl hover:shadow-pine/20 transition-colors duration-200 text-base">
-                  Adaptar mi primer examen
+                  {t.hero.cta}
                   <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
                 </Link>
               </MagneticButton>
               <a href="#como-funciona" className="btn-press inline-flex items-center gap-2 text-ink/60 hover:text-ink font-medium px-6 py-4 transition-colors duration-200">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" /></svg>
-                Ver como funciona
+                {t.hero.ctaSecondary}
               </a>
             </div>
           </div>
@@ -895,19 +896,19 @@ export default function Home() {
                 </span>
               </div>
               <p className="text-xs text-ink/40 leading-relaxed">
-                Adaptacion de examenes educativos con inteligencia artificial. Conforme al marco DUA, NEAE y LOMLOE.
+                {t.footer.description}
               </p>
             </div>
             <div>
-              <p className="text-xs font-semibold text-ink/50 uppercase tracking-wider mb-4">Producto</p>
+              <p className="text-xs font-semibold text-ink/50 uppercase tracking-wider mb-4">{t.footer.producto}</p>
               <ul className="space-y-2.5">
-                {['Como funciona', 'Resultado', 'Precios'].map((s) => (
+                {[t.nav.comoFunciona, t.nav.perfiles, t.nav.precios].map((s) => (
                   <li key={s}><a href={'#' + s.toLowerCase().replace(/ /g, '-')} className="text-sm text-ink/50 hover:text-ink/60 transition-colors">{s}</a></li>
                 ))}
               </ul>
             </div>
             <div>
-              <p className="text-xs font-semibold text-ink/50 uppercase tracking-wider mb-4">Legal</p>
+              <p className="text-xs font-semibold text-ink/50 uppercase tracking-wider mb-4">{t.footer.legal}</p>
               <ul className="space-y-2.5">
                 <li><Link href="/aviso-legal" className="text-sm text-ink/50 hover:text-ink/60 transition-colors">Aviso legal</Link></li>
                 <li><Link href="/politica-privacidad" className="text-sm text-ink/50 hover:text-ink/60 transition-colors">Politica de privacidad</Link></li>
