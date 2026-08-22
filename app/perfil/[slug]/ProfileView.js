@@ -74,12 +74,13 @@ function splitIntoChunks(text, maxLen = 280) {
   return chunks;
 }
 
-export default function ProfileView({ perfil }) {
+export default function ProfileView({ perfil, faqs = [] }) {
   const accent = perfil.accentColor || PINE;
   const [progress, setProgress] = useState(0);
   const [showTop, setShowTop] = useState(false);
   const [queEsOpen, setQueEsOpen] = useState(true);
   const [impactoOpen, setImpactoOpen] = useState(false);
+  const [faqOpen, setFaqOpen] = useState(true);
 
   useEffect(() => {
     const onScroll = () => {
@@ -98,6 +99,12 @@ export default function ProfileView({ perfil }) {
   const redFlags = perfil.examRedFlags || [];
   const studies = perfil.studies || [];
   const resources = perfil.resources || [];
+
+  const faqChip = (
+    <div className="shrink-0 w-11 h-11 rounded-2xl bg-[#2f4468]/[0.08] flex items-center justify-center">
+      <svg className="w-5 h-5 text-[#2f4468]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" /></svg>
+    </div>
+  );
 
   const queEsChip = (
     <div className="shrink-0 w-11 h-11 rounded-2xl flex items-center justify-center" style={{ backgroundColor: `${accent}12` }}>
@@ -296,6 +303,24 @@ export default function ProfileView({ perfil }) {
                 </Reveal>
               ))}
             </div>
+          </section>
+        )}
+
+        {/* FAQ */}
+        {faqs.length > 0 && (
+          <section>
+            <Accordion open={faqOpen} onToggle={() => setFaqOpen(!faqOpen)} label="Preguntas frecuentes" title={`Qué preguntan sobre ${perfil.name}`} iconChip={faqChip}>
+              <div className="divide-y divide-black/[0.04]">
+                {faqs.map((faq, i) => (
+                  <Reveal key={i} delay={i * 80}>
+                    <div className="py-5 first:pt-0 last:pb-0">
+                      <h3 className="text-sm font-semibold text-[#1a1a1a]">{faq.question}</h3>
+                      <p className="text-sm text-[#1a1a1a]/55 leading-relaxed mt-2">{faq.answer}</p>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </Accordion>
           </section>
         )}
 
