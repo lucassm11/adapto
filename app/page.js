@@ -391,7 +391,7 @@ export default function Home() {
       {/* ═══════════════ LOGOS / BADGES (anim-b scale) ═══════════════ */}
       <section ref={addSectionRef} className="sr-hidden border-y border-black/[0.04] bg-white/60 backdrop-blur-sm">
         <div className="mx-auto max-w-7xl px-6 py-8">
-          <p className="anim-b d0 text-center text-xs font-semibold uppercase tracking-[0.2em] text-ink/25 mb-8">Disenado con las normativas educativas de</p>
+          <p className="anim-b d0 text-center text-xs font-semibold uppercase tracking-[0.2em] text-ink/25 mb-8">{t.badges.title}</p>
           <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
             {[
               { label: 'DUA', full: 'Diseno Universal para el Aprendizaje' },
@@ -418,10 +418,10 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
             {[
-              { value: 10000, suffix: '+', label: 'Examenes adaptados', color: 'text-pine' },
-              { value: 94, suffix: '%', label: 'Aprobados por inspeccion', color: 'text-pine' },
-              { value: 3, suffix: 's', label: 'Tiempo promedio', color: 'text-red-pen' },
-              { value: 15, suffix: '+', label: 'Perfiles de alumno', color: 'text-navy' },
+              { value: 10000, suffix: '+', label: t.stats.exams, color: 'text-pine' },
+              { value: 94, suffix: '%', label: t.stats.approved, color: 'text-pine' },
+              { value: 3, suffix: 's', label: t.stats.time, color: 'text-red-pen' },
+              { value: 15, suffix: '+', label: t.stats.profiles, color: 'text-navy' },
             ].map((m, i) => (
               <div key={m.label} className={`anim-a d${i} text-center group`}>
                 <div className={`font-mono-score text-4xl md:text-5xl font-bold ${m.color} transition-transform duration-300 group-hover:scale-110`}>
@@ -440,19 +440,21 @@ export default function Home() {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-20">
             <div>
               <h2 className="font-display text-4xl md:text-5xl tracking-tight text-ink">
-                Tres pasos.<br />Cero complicaciones.
+                {t.comoFunciona.title.split('\n').map((line, i) => (
+                  <span key={i}>{line}{i === 0 && <br />}</span>
+                ))}
               </h2>
             </div>
             <p className="text-ink/60 text-lg max-w-sm mt-4 md:mt-0">
-              Olvidate de adaptar examenes a mano. Adapto lo hace por ti.
+              {t.comoFunciona.subtitle}
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 relative">
             <div className="hidden md:block absolute top-[4.5rem] left-[16%] right-[16%] h-px bg-gradient-to-r from-pine/20 via-gold/20 to-pine/20" />
             {[
-              { num: '01', color: 'from-pine/10 to-pine/[0.02]', borderColor: 'border-pine/20', iconColor: 'text-pine', iconPath: 'M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z', title: 'Perfil del alumno', desc: 'Curso, materia y dictamen psicopedagogico. TDAH, dislexia, TEL, discalculia...' },
-              { num: '02', color: 'bg-gold/10 to-gold/[0.02]', borderColor: 'border-gold/20', iconColor: 'text-gold', iconPath: 'M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5', title: 'Sube el examen', desc: 'Foto con el movil, PDF directo o texto pegado. Lo que te sea mas facil.' },
-              { num: '03', color: 'from-pine/10 to-pine/[0.02]', borderColor: 'border-navy/20', iconColor: 'text-pine', iconPath: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Todo listo', desc: 'Examen reescrito, dictamen tecnico, puntuacion DUA y hoja de apoyos.' },
+              { num: '01', color: 'from-pine/10 to-pine/[0.02]', borderColor: 'border-pine/20', iconColor: 'text-pine', iconPath: 'M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z', title: t.comoFunciona.step1Title, desc: t.comoFunciona.step1Desc },
+              { num: '02', color: 'bg-gold/10 to-gold/[0.02]', borderColor: 'border-gold/20', iconColor: 'text-gold', iconPath: 'M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5', title: t.comoFunciona.step2Title, desc: t.comoFunciona.step2Desc },
+              { num: '03', color: 'from-pine/10 to-pine/[0.02]', borderColor: 'border-navy/20', iconColor: 'text-pine', iconPath: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z', title: t.comoFunciona.step3Title, desc: t.comoFunciona.step3Desc },
             ].map((step, i) => (
               <div key={step.num} className={`${i % 2 === 0 ? 'anim-c' : 'anim-d'} d${i + 1} group relative bg-gradient-to-b ${step.color} rounded-2xl border ${step.borderColor} p-8 hover:shadow-xl hover:shadow-black/[0.04] transition-all duration-500 hover:-translate-y-1`}>
                 <div className={`w-14 h-14 rounded-2xl bg-white border ${step.borderColor} flex items-center justify-center mb-6 ${step.iconColor} group-hover:scale-110 transition-transform duration-300`}>
@@ -472,12 +474,12 @@ export default function Home() {
         <div className="relative mx-auto max-w-7xl px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="anim-c">
-              <FloatingTag className="bg-red-pen/[0.06] text-red-pen border border-red-pen/10 mb-6">Exclusivo Pro</FloatingTag>
-              <h2 className="font-display text-4xl md:text-5xl tracking-tight text-ink mb-6">Diagnosticador IA.</h2>
-              <p className="text-ink/60 text-lg leading-relaxed mb-6">Sube un examen respondido y la IA analiza los patrones de respuesta del alumno: tipo de errores, consistencia, comprension, escritura y factores emocionales.</p>
-              <p className="text-ink/60 text-lg leading-relaxed mb-8">Genera hipotesis de posibles perfiles NEAE con un porcentaje de confianza y una explicacion detallada de los patrones detectados.</p>
+              <FloatingTag className="bg-red-pen/[0.06] text-red-pen border border-red-pen/10 mb-6">{t.diagLanding.badge}</FloatingTag>
+              <h2 className="font-display text-4xl md:text-5xl tracking-tight text-ink mb-6">{t.diagLanding.title}</h2>
+              <p className="text-ink/60 text-lg leading-relaxed mb-6">{t.diagLanding.desc1}</p>
+              <p className="text-ink/60 text-lg leading-relaxed mb-8">{t.diagLanding.desc2}</p>
               <ul className="space-y-3 mb-8">
-                {['Analisis de patrones de error y escritura', 'Hasta 4 hipotesis con % de confianza', 'Explicacion completa con evidencia del examen', 'Enlace directo a la ficha de cada perfil'].map((f) => (
+                {t.diagLanding.features.map((f) => (
                   <li key={f} className="flex items-center gap-2.5 text-sm text-ink/60">
                     <svg className="w-4 h-4 text-pine shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                     {f}
@@ -486,7 +488,7 @@ export default function Home() {
               </ul>
               <MagneticButton>
                 <Link href="/diagnosticador" className="btn-press inline-flex items-center gap-2 bg-red-pen text-white font-semibold rounded-full px-7 py-3.5 hover:bg-red-pen-dark hover:shadow-lg hover:shadow-red-pen/20 transition-colors duration-200 text-sm">
-                  Probar Diagnosticador
+                  {t.diagLanding.cta}
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
                 </Link>
               </MagneticButton>
@@ -538,15 +540,15 @@ export default function Home() {
       <section ref={addSectionRef} id="resultado" className="sr-hidden relative py-28 md:py-40" style={{ scrollMarginTop: '80px' }}>
         <div className="relative mx-auto max-w-7xl px-6">
           <div className="text-center mb-16">
-            <h2 className="font-display text-4xl md:text-5xl tracking-tight text-ink mb-4">Asi adapta Adapto un examen real.</h2>
-            <p className="text-ink/50 text-lg max-w-xl mx-auto">Mira la diferencia entre el examen original y la version adaptada para un alumno con TDAH.</p>
+            <h2 className="font-display text-4xl md:text-5xl tracking-tight text-ink mb-4">{t.resultado.title}</h2>
+            <p className="text-ink/50 text-lg max-w-xl mx-auto">{t.resultado.subtitle}</p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             {/* ORIGINAL */}
             <div className="anim-c rounded-2xl border border-black/[0.06] overflow-hidden">
               <div className="px-6 py-4 bg-paper border-b border-black/[0.04] flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider text-ink/40">Original</span>
-                <span className="text-xs text-ink/40">Sin adaptar</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-ink/40">{t.resultado.original}</span>
+                <span className="text-xs text-ink/40">{t.resultado.noAdapted}</span>
               </div>
               <div className="p-6 space-y-5">
                 {[
@@ -561,7 +563,7 @@ export default function Home() {
                       <p className="text-sm text-ink/60 leading-relaxed">{q.text}</p>
                     </div>
                     <div className="flex items-center gap-2 ml-7">
-                      <span className="text-[9px] text-ink/25 font-medium">Complejidad</span>
+                      <span className="text-[9px] text-ink/25 font-medium">{t.resultado.complexity}</span>
                       <div className="flex-1 h-1 bg-black/[0.04] rounded-full overflow-hidden">
                         <div className="h-full bg-red-pen/30 rounded-full" style={{ width: `${q.complex * 10}%` }} />
                       </div>
@@ -575,8 +577,8 @@ export default function Home() {
             {/* ADAPTADO (staggered entrance) */}
             <div className="anim-d rounded-2xl border-2 border-pine/20 overflow-hidden shadow-lg shadow-pine/[0.05]">
               <div className="px-6 py-4 bg-pine/[0.04] border-b border-pine/10 flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider text-pine">Adaptado para TDAH</span>
-                <span className="text-xs text-pine/70 font-semibold">4 preguntas</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-pine">{t.resultado.adapted}</span>
+                <span className="text-xs text-pine/70 font-semibold">4 {t.resultado.questions}</span>
               </div>
               <div className="p-6 space-y-6">
                 {/* Q1 */}
@@ -590,10 +592,10 @@ export default function Home() {
                     <p className="text-sm text-ink/80 leading-relaxed font-medium">Completa la tabla de conjugacion del verbo "haber". Solo: Presente, Preterito, Futuro.</p>
                   </div>
                   <div className="ml-7 rounded-lg bg-gold/[0.04] border border-gold/20 p-2.5">
-                    <p className="text-[11px] text-gold/80 leading-relaxed"><span className="font-semibold">Justificacion:</span> Se reduce de 6 tiempos a 3 para disminuir la sobrecarga de memoria de trabajo.</p>
+                    <p className="text-[11px] text-gold/80 leading-relaxed"><span className="font-semibold">{t.resultado.justification}</span> Se reduce de 6 tiempos a 3 para disminuir la sobrecarga de memoria de trabajo.</p>
                   </div>
                   <div className="flex items-center gap-2 ml-7">
-                    <span className="text-[9px] text-ink/25 font-medium">Complejidad</span>
+                    <span className="text-[9px] text-ink/25 font-medium">{t.resultado.complexity}</span>
                     <div className="flex-1 h-1 bg-black/[0.04] rounded-full overflow-hidden"><div className="h-full bg-pine/40 rounded-full" style={{ width: '40%' }} /></div>
                     <span className="text-[10px] font-mono-score font-bold text-pine/50">4/10</span>
                   </div>
@@ -609,10 +611,10 @@ export default function Home() {
                     <p className="text-sm text-ink/80 leading-relaxed font-medium">Escribe 5 oraciones sobre la contaminacion. Usa estas palabras: contaminacion, agua, reciclar, planeta.</p>
                   </div>
                   <div className="ml-7 rounded-lg bg-gold/[0.04] border border-gold/20 p-2.5">
-                    <p className="text-[11px] text-gold/80 leading-relaxed"><span className="font-semibold">Justificacion:</span> Se reduce de 10 a 5 oraciones y se dan palabras clave para reducir la carga de planificacion.</p>
+                    <p className="text-[11px] text-gold/80 leading-relaxed"><span className="font-semibold">{t.resultado.justification}</span> Se reduce de 10 a 5 oraciones y se dan palabras clave para reducir la carga de planificacion.</p>
                   </div>
                   <div className="flex items-center gap-2 ml-7">
-                    <span className="text-[9px] text-ink/25 font-medium">Complejidad</span>
+                    <span className="text-[9px] text-ink/25 font-medium">{t.resultado.complexity}</span>
                     <div className="flex-1 h-1 bg-black/[0.04] rounded-full overflow-hidden"><div className="h-full bg-pine/40 rounded-full" style={{ width: '35%' }} /></div>
                     <span className="text-[10px] font-mono-score font-bold text-pine/50">3.5/10</span>
                   </div>
@@ -628,10 +630,10 @@ export default function Home() {
                     <p className="text-sm text-ink/80 leading-relaxed font-medium">Lee el texto. Subraya la conclusion del autor.</p>
                   </div>
                   <div className="ml-7 rounded-lg bg-gold/[0.04] border border-gold/20 p-2.5">
-                    <p className="text-[11px] text-gold/80 leading-relaxed"><span className="font-semibold">Justificacion:</span> Se elimina la tarea de analisis multiple y se centra en una sola accion concreta.</p>
+                    <p className="text-[11px] text-gold/80 leading-relaxed"><span className="font-semibold">{t.resultado.justification}</span> Se elimina la tarea de analisis multiple y se centra en una sola accion concreta.</p>
                   </div>
                   <div className="flex items-center gap-2 ml-7">
-                    <span className="text-[9px] text-ink/25 font-medium">Complejidad</span>
+                    <span className="text-[9px] text-ink/25 font-medium">{t.resultado.complexity}</span>
                     <div className="flex-1 h-1 bg-black/[0.04] rounded-full overflow-hidden"><div className="h-full bg-pine/40 rounded-full" style={{ width: '30%' }} /></div>
                     <span className="text-[10px] font-mono-score font-bold text-pine/50">3/10</span>
                   </div>
@@ -647,10 +649,10 @@ export default function Home() {
                     <p className="text-sm text-ink/80 leading-relaxed font-medium">Elige: democracia representativa o directa? Escribe por que con 2 razones.</p>
                   </div>
                   <div className="ml-7 rounded-lg bg-pine/[0.03] border border-pine/[0.08] p-2.5">
-                    <p className="text-[11px] text-pine/60 leading-relaxed"><span className="font-semibold">Consejo de aula:</span> Permite que el alumno elija el formato: lista, dibujo o oraciones.</p>
+                    <p className="text-[11px] text-pine/60 leading-relaxed"><span className="font-semibold">{t.resultado.classroomTip}</span> Permite que el alumno elija el formato: lista, dibujo o oraciones.</p>
                   </div>
                   <div className="flex items-center gap-2 ml-7">
-                    <span className="text-[9px] text-ink/25 font-medium">Complejidad</span>
+                    <span className="text-[9px] text-ink/25 font-medium">{t.resultado.complexity}</span>
                     <div className="flex-1 h-1 bg-black/[0.04] rounded-full overflow-hidden"><div className="h-full bg-pine/40 rounded-full" style={{ width: '40%' }} /></div>
                     <span className="text-[10px] font-mono-score font-bold text-pine/50">4/10</span>
                   </div>
@@ -665,7 +667,7 @@ export default function Home() {
       <section ref={addSectionRef} className="sr-hidden py-28 md:py-36 bg-white">
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-center mb-16">
-            <h2 className="font-display text-4xl md:text-5xl tracking-tight text-ink">Profesores reales, resultados reales.</h2>
+            <h2 className="font-display text-4xl md:text-5xl tracking-tight text-ink">{t.testimonios.title}</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {[
@@ -697,8 +699,8 @@ export default function Home() {
       <section ref={addSectionRef} id="perfiles" className="sr-hidden relative py-28 md:py-36">
         <div className="relative mx-auto max-w-7xl px-6">
           <div className="text-center mb-16">
-            <h2 className="font-display text-4xl md:text-5xl tracking-tight text-ink mb-4">Adaptado a cada alumno.</h2>
-            <p className="text-ink/50 text-lg max-w-xl mx-auto">Conoce en profundidad cada perfil NEAE: qué es, cómo impacta en exámenes y qué adaptaciones aplicamos.</p>
+            <h2 className="font-display text-4xl md:text-5xl tracking-tight text-ink mb-4">{t.perfilesLanding.title}</h2>
+            <p className="text-ink/50 text-lg max-w-xl mx-auto">{t.perfilesLanding.subtitle}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
@@ -734,7 +736,7 @@ export default function Home() {
                     <h3 className="text-sm font-semibold text-ink leading-snug mb-1.5 group-hover:text-pine transition-colors duration-200">{p.name}</h3>
                     <p className="text-xs text-ink/45 leading-relaxed line-clamp-2 mb-4">{p.desc}</p>
                     <div className="flex items-center gap-1.5 text-[10px] font-semibold text-ink/25 group-hover:text-pine transition-colors duration-200">
-                      Ver perfil
+                      {t.perfilesLanding.viewProfile}
                       <svg className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
                     </div>
                   </div>
@@ -744,7 +746,7 @@ export default function Home() {
           </div>
           <div className="text-center mt-10">
             <Link href="/auditor-dua" className="inline-flex items-center gap-2 text-sm font-semibold text-pine hover:text-pine-light transition-colors group">
-              Prueba Adaptar con cualquiera de estos perfiles
+              {t.perfilesLanding.cta}
               <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
             </Link>
           </div>
@@ -755,10 +757,10 @@ export default function Home() {
       <section ref={addSectionRef} className="sr-hidden py-20 md:py-28">
         <div className="mx-auto max-w-3xl px-6">
           <div className="text-center mb-16">
-            <h2 className="font-display text-4xl md:text-5xl tracking-tight text-ink">Resolvemos tus dudas.</h2>
+            <h2 className="font-display text-4xl md:text-5xl tracking-tight text-ink">{t.faqLanding.title}</h2>
           </div>
           <div className="space-y-3">
-            {FAQS.map((faq, i) => (
+            {t.faqLanding.questions.map((faq, i) => (
               <div key={i} className={`anim-c d${i + 1} rounded-2xl border border-black/[0.06] overflow-hidden bg-white transition-all duration-300 hover:border-black/[0.1]`}>
                 <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="btn-press w-full flex items-center justify-between px-6 py-5 text-left">
                   <span className="font-display text-base text-ink pr-4">{faq.q}</span>
@@ -779,54 +781,38 @@ export default function Home() {
       <section ref={addSectionRef} id="precios" className="sr-hidden relative py-28 md:py-36 bg-white">
         <div className="relative mx-auto max-w-7xl px-6">
           <div className="text-center mb-16">
-            <h2 className="font-display text-4xl md:text-5xl tracking-tight text-ink mb-4">Simple, justo, sin sorpresas.</h2>
+            <h2 className="font-display text-4xl md:text-5xl tracking-tight text-ink mb-4">{t.preciosLanding.title}</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
             {/* GRATUITO */}
             <div className="anim-g d1 card-lift bg-paper rounded-2xl border border-black/[0.06] p-8">
-              <h3 className="font-display text-xl text-ink">Gratuito</h3>
-              <p className="text-sm text-ink/50 mt-1 mb-6">Para probar y descubrir</p>
+              <h3 className="font-display text-xl text-ink">{t.preciosLanding.free.name}</h3>
+              <p className="text-sm text-ink/50 mt-1 mb-6">{t.preciosLanding.free.desc}</p>
               <div className="flex items-baseline gap-1 mb-6">
-                <span className="font-mono-score text-5xl font-bold text-ink">0</span>
-                <span className="text-ink/50 text-sm">EUR/mes</span>
+                <span className="font-mono-score text-5xl font-bold text-ink">{t.preciosLanding.free.price}</span>
+                <span className="text-ink/50 text-sm">{t.preciosLanding.free.currency}</span>
               </div>
               <ul className="space-y-3 mb-8">
-                {[
-                  '3 adaptaciones de examen',
-                  'Examen adaptado con justificaciones',
-                  'Criterios DUA por pregunta',
-                  '3 perfiles TDAH incluidos',
-                  'Previsualizacion del informe',
-                  'AdapBot basico',
-                ].map((f) => (
+                {t.preciosLanding.free.features.map((f) => (
                   <li key={f} className="flex items-center gap-2.5 text-sm text-ink/60">
                     <svg className="w-4 h-4 text-pine shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                     {f}
                   </li>
                 ))}
               </ul>
-              <Link href="/auditor-dua" className="btn-press block text-center border border-navy/20 text-pine hover:bg-pine hover:text-white font-semibold rounded-xl px-4 py-3 transition-colors duration-200 text-sm">Empezar gratis</Link>
+              <Link href="/auditor-dua" className="btn-press block text-center border border-navy/20 text-pine hover:bg-pine hover:text-white font-semibold rounded-xl px-4 py-3 transition-colors duration-200 text-sm">{t.preciosLanding.free.cta}</Link>
             </div>
             {/* PRO */}
             <div className="anim-g d2 relative bg-pine text-white rounded-2xl p-8 shadow-2xl shadow-pine/20 scale-[1.03] md:scale-105">
-              <span className="absolute -top-3.5 left-8 text-[10px] font-bold uppercase tracking-wider bg-gold text-ink rounded-full px-3 py-1">Mas elegido</span>
-              <h3 className="font-display text-xl">Pro</h3>
-              <p className="text-sm text-white/50 mt-1 mb-6">Para uso semanal real</p>
+              <span className="absolute -top-3.5 left-8 text-[10px] font-bold uppercase tracking-wider bg-gold text-ink rounded-full px-3 py-1">{t.preciosLanding.pro.badge}</span>
+              <h3 className="font-display text-xl">{t.preciosLanding.pro.name}</h3>
+              <p className="text-sm text-white/50 mt-1 mb-6">{t.preciosLanding.pro.desc}</p>
               <div className="flex items-baseline gap-1 mb-6">
-                <span className="font-mono-score text-5xl font-bold">35</span>
-                <span className="text-white/40 text-sm">EUR/mes</span>
+                <span className="font-mono-score text-5xl font-bold">{t.preciosLanding.pro.price}</span>
+                <span className="text-white/40 text-sm">{t.preciosLanding.pro.currency}</span>
               </div>
               <ul className="space-y-3 mb-8">
-                {[
-                  'Adaptaciones ilimitadas',
-                  '16 perfiles NEAE completos',
-                  'Descarga PDF informe completo',
-                  'Diagnosticador IA',
-                  'AdapBot con contexto completo',
-                  'Analisis de complejidad por pregunta',
-                  'Historial guardado',
-                  'Soporte prioritario',
-                ].map((f) => (
+                {t.preciosLanding.pro.features.map((f) => (
                   <li key={f} className="flex items-center gap-2.5 text-sm text-white/70">
                     <svg className="w-4 h-4 text-pine/60 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                     {f}
@@ -837,26 +823,20 @@ export default function Home() {
             </div>
             {/* CENTROS */}
             <div className="anim-g d3 card-lift bg-paper rounded-2xl border border-black/[0.06] p-8">
-              <h3 className="font-display text-xl text-ink">Centros</h3>
-              <p className="text-sm text-ink/50 mt-1 mb-6">Colegios y academias</p>
+              <h3 className="font-display text-xl text-ink">{t.preciosLanding.centros.name}</h3>
+              <p className="text-sm text-ink/50 mt-1 mb-6">{t.preciosLanding.centros.desc}</p>
               <div className="flex items-baseline gap-1 mb-6">
-                <span className="font-mono-score text-4xl font-bold text-ink">A medida</span>
+                <span className="font-mono-score text-4xl font-bold text-ink">{t.preciosLanding.centros.price}</span>
               </div>
               <ul className="space-y-3 mb-8">
-                {[
-                  'Todo lo de Pro incluido',
-                  'Precio por asiento',
-                  'Panel de administracion',
-                  'Soporte dedicado',
-                  'SLA garantizado',
-                ].map((f) => (
+                {t.preciosLanding.centros.features.map((f) => (
                   <li key={f} className="flex items-center gap-2.5 text-sm text-ink/60">
                     <svg className="w-4 h-4 text-pine shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                     {f}
                   </li>
                 ))}
               </ul>
-              <Link href="/contacto" className="btn-press block text-center border border-navy/20 text-pine hover:bg-pine hover:text-white font-semibold rounded-xl px-4 py-3 transition-colors duration-200 text-sm">Hablemos</Link>
+              <Link href="/contacto" className="btn-press block text-center border border-navy/20 text-pine hover:bg-pine hover:text-white font-semibold rounded-xl px-4 py-3 transition-colors duration-200 text-sm">{t.preciosLanding.centros.cta}</Link>
             </div>
           </div>
         </div>
@@ -866,12 +846,14 @@ export default function Home() {
       <section ref={addSectionRef} className="sr-hidden py-24 md:py-32 bg-pine">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <h2 className="anim-f font-display text-4xl md:text-6xl text-white tracking-tight mb-6">
-            Adaptar un examen<br />nunca fue tan facil.
+            {t.ctaFinal.title.split('\n').map((line, i) => (
+              <span key={i}>{line}{i === 0 && <br />}</span>
+            ))}
           </h2>
-          <p className="anim-f d1 text-lg text-white/40 max-w-lg mx-auto mb-10">Sube tu primer examen ahora. Gratis, sin registro, sin compromiso.</p>
+          <p className="anim-f d1 text-lg text-white/40 max-w-lg mx-auto mb-10">{t.ctaFinal.subtitle}</p>
           <MagneticButton>
             <Link href="/auditor-dua" className="anim-b d2 btn-press group inline-flex items-center gap-3 bg-white text-pine font-semibold rounded-full px-10 py-4 hover:shadow-2xl hover:shadow-white/20 transition-colors duration-200 text-base">
-              Adaptar mi primer examen
+              {t.ctaFinal.cta}
               <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
             </Link>
           </MagneticButton>
@@ -917,15 +899,15 @@ export default function Home() {
               </ul>
             </div>
             <div>
-              <p className="text-xs font-semibold text-ink/50 uppercase tracking-wider mb-4">Contacto</p>
+              <p className="text-xs font-semibold text-ink/50 uppercase tracking-wider mb-4">{t.footer.contactoLabel}</p>
               <ul className="space-y-2.5">
-                <li><Link href="/contacto" className="text-sm text-ink/50 hover:text-ink/60 transition-colors">Formulario de contacto</Link></li>
+                <li><Link href="/contacto" className="text-sm text-ink/50 hover:text-ink/60 transition-colors">{t.footer.formContact}</Link></li>
                 <li><a href="mailto:hola@adapto.app" className="text-sm text-ink/50 hover:text-ink/60 transition-colors">hola@adapto.app</a></li>
               </ul>
             </div>
           </div>
           <div className="border-t border-black/[0.04] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <span className="text-xs text-ink/25">&copy; {new Date().getFullYear()} Adapto. Hecho para profesores.</span>
+            <span className="text-xs text-ink/25">&copy; {new Date().getFullYear()} Adapto. {t.footer.copyright}</span>
             <div className="flex items-center gap-4 text-xs text-ink/20">
               <span>Espana (UE)</span>
               <span className="w-1 h-1 rounded-full bg-ink/10" />

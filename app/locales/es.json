@@ -6,85 +6,143 @@
     "diagnosticador": "Diagnosticador IA",
     "precios": "Precios",
     "contacto": "Contacto",
-    "login": "Acceder",
+    "login": "Iniciar sesión",
     "pasarPro": "Pasar a Pro"
   },
   "hero": {
     "badge": "Adaptación automática de exámenes",
     "title1": "El examen se",
     "titleHighlight": " adapta",
-    "title2": " al alumno",
-    "subtitle": "Subes un examen, seleccionas el perfil del alumno y la IA lo reescribe con adaptaciones reales conforme al marco DUA, NEAE y LOMLOE.",
-    "cta": "Adaptar un examen ahora",
+    "title2": " al alumno.",
+    "subtitle": "Subes un examen. Seleccionas el perfil del alumno. Adapto lo reescribe con adaptaciones reales en segundos.",
+    "cta": "Adaptar mi primer examen",
     "ctaSecondary": "Ver cómo funciona",
-    "freeBadge": "Gratis · Sin tarjeta de crédito",
-    "stats": {
-      "perfiles": "perfiles NEAE",
-      "marco": "Marco DUA / LOMLOE",
-      "tiempo": "de generación"
+    "freeBadge": "Gratis · Sin tarjeta de crédito"
+  },
+  "badges": {
+    "title": "Diseñado con las normativas educativas de"
+  },
+  "stats": {
+    "exams": "Exámenes adaptados",
+    "approved": "Aprobados por inspección",
+    "time": "Tiempo promedio",
+    "profiles": "Perfiles de alumno"
+  },
+  "comoFunciona": {
+    "title": "Tres pasos.\nCero complicaciones.",
+    "subtitle": "Olvídate de adaptar exámenes a mano. Adapto lo hace por ti.",
+    "step1Title": "Perfil del alumno",
+    "step1Desc": "Curso, materia y dictamen psicopedagógico. TDAH, dislexia, TEL, discalculia...",
+    "step2Title": "Sube el examen",
+    "step2Desc": "Foto con el móvil, PDF directo o texto pegado. Lo que te sea más fácil.",
+    "step3Title": "Todo listo",
+    "step3Desc": "Examen reescrito, dictamen técnico, puntuación DUA y hoja de apoyos."
+  },
+  "diagLanding": {
+    "badge": "Exclusivo Pro",
+    "title": "Diagnosticador IA.",
+    "desc1": "Sube un examen respondido y la IA analiza los patrones de respuesta del alumno: tipo de errores, consistencia, comprensión, escritura y factores emocionales.",
+    "desc2": "Genera hipótesis de posibles perfiles NEAE con un porcentaje de confianza y una explicación detallada de los patrones detectados.",
+    "features": [
+      "Análisis de patrones de error y escritura",
+      "Hasta 4 hipótesis con % de confianza",
+      "Explicación completa con evidencia del examen",
+      "Enlace directo a la ficha de cada perfil"
+    ],
+    "cta": "Probar Diagnosticador"
+  },
+  "resultado": {
+    "title": "Así adapta Adapto un examen real.",
+    "subtitle": "Mira la diferencia entre el examen original y la versión adaptada para un alumno con TDAH.",
+    "original": "Original",
+    "noAdapted": "Sin adaptar",
+    "adapted": "Adaptado para TDAH",
+    "questions": "preguntas",
+    "complexity": "Complejidad",
+    "justification": "Justificación:",
+    "classroomTip": "Consejo de aula:"
+  },
+  "testimonios": {
+    "title": "Profesores reales, resultados reales."
+  },
+  "perfilesLanding": {
+    "title": "Adaptado a cada alumno.",
+    "subtitle": "Conoce en profundidad cada perfil NEAE: qué es, cómo impacta en exámenes y qué adaptaciones aplicamos.",
+    "viewProfile": "Ver perfil",
+    "cta": "Prueba Adaptar con cualquiera de estos perfiles"
+  },
+  "faqLanding": {
+    "title": "Resolvemos tus dudas.",
+    "questions": [
+      { "q": "¿Cómo funciona exactamente?", "a": "Subes el examen como imagen, PDF o texto. Seleccionas el perfil del alumno (TDAH, dislexia, etc.) y Adapto reescribe las preguntas con adaptaciones reales: bancos de palabras, consignas simplificadas, tiempos reducidos y pistas visuales." },
+      { "q": "¿Las adaptaciones son válidas para inspección?", "a": "Sí. Adapto sigue el marco DUA, los criterios LOMLOE y las NEAE del BOE. El dictamen genera un informe con la puntuación DUA (0-100), el análisis por principios y una hoja de apoyos descargable en PDF." },
+      { "q": "¿Necesito saber de educación para usarlo?", "a": "Para nada. Solo indicas el curso, la materia y el tipo de necesidad. Adapto se encarga del resto usando IA entrenada con normativa educativa española vigente." },
+      { "q": "¿Qué formatos puedo subir?", "a": "PDF, imagen (JPG/PNG) o texto directo. Puedes pegar el examen completo o subir una foto con el móvil." },
+      { "q": "¿Hay versión gratis?", "a": "Sí. Puedes adaptar hasta 3 exámenes gratis con marca de agua en el PDF. Sin registro, sin tarjeta." }
+    ]
+  },
+  "preciosLanding": {
+    "title": "Simple, justo, sin sorpresas.",
+    "free": {
+      "name": "Gratuito",
+      "desc": "Para probar y descubrir",
+      "price": "0",
+      "currency": "EUR/mes",
+      "cta": "Empezar gratis",
+      "features": [
+        "3 adaptaciones de examen",
+        "Examen adaptado con justificaciones",
+        "Criterios DUA por pregunta",
+        "3 perfiles TDAH incluidos",
+        "Previsualización del informe",
+        "AdapBot básico"
+      ]
+    },
+    "pro": {
+      "name": "Pro",
+      "badge": "Más elegido",
+      "desc": "Para uso semanal real",
+      "price": "35",
+      "currency": "EUR/mes",
+      "cta": "Pasar a Pro",
+      "features": [
+        "Adaptaciones ilimitadas",
+        "16 perfiles NEAE completos",
+        "Descarga PDF informe completo",
+        "Diagnosticador IA",
+        "AdapBot con contexto completo",
+        "Análisis de complejidad por pregunta",
+        "Historial guardado",
+        "Soporte prioritario"
+      ]
+    },
+    "centros": {
+      "name": "Centros",
+      "desc": "Colegios y academias",
+      "price": "A medida",
+      "cta": "Hablemos",
+      "features": [
+        "Todo lo de Pro incluido",
+        "Precio por asiento",
+        "Panel de administración",
+        "Soporte dedicado",
+        "SLA garantizado"
+      ]
     }
   },
-  "sections": {
-    "comoFunciona": {
-      "label": "Cómo funciona",
-      "title": "Adapta un examen en 3 pasos",
-      "subtitle": "Sin configuraciones complejas. Subes, seleccionas y listo.",
-      "step1": {
-        "title": "Sube el examen",
-        "desc": "Arrastra el PDF o pega el texto del examen que quieres adaptar."
-      },
-      "step2": {
-        "title": "Selecciona el perfil",
-        "desc": "Elige entre 16 perfiles NEAE: TDAH, dislexia, TEA, discalculia y más."
-      },
-      "step3": {
-        "title": "Recibe la adaptación",
-        "desc": "La IA genera el examen adaptado con informe completo y rationale de cada cambio."
-      }
-    },
-    "perfiles": {
-      "label": "Perfiles NEAE",
-      "title": "16 perfiles con respaldo científico",
-      "subtitle": "Cada perfil incluye evidencia de estudios revisados por pares y adaptaciones recomendadas."
-    },
-    "pricing": {
-      "label": "Precios",
-      "title": "Elige tu plan",
-      "subtitle": "Empieza gratis. Actualiza cuando lo necesites.",
-      "free": {
-        "name": "Gratis",
-        "price": "0 €",
-        "period": "para siempre",
-        "cta": "Empezar gratis",
-        "features": [
-          "3 adaptaciones de examen al mes",
-          "3 perfiles TDAH disponibles",
-          "Previsualización del informe",
-          "Generación con IA adaptada al perfil"
-        ]
-      },
-      "pro": {
-        "name": "Pro",
-        "price": "35 €",
-        "period": "/mes IVA incluido",
-        "cta": "Empezar con Pro",
-        "features": [
-          "Adaptaciones ilimitadas",
-          "16 perfiles NEAE completos",
-          "Descarga PDF del informe completo",
-          "Diagnóstico IA del examen",
-          "AdapBot con contexto del perfil",
-          "Soporte prioritario"
-        ]
-      }
-    }
+  "ctaFinal": {
+    "title": "Adaptar un examen\nnunca fue tan fácil.",
+    "subtitle": "Sube tu primer examen ahora. Gratis, sin registro, sin compromiso.",
+    "cta": "Adaptar mi primer examen"
   },
   "footer": {
-    "description": "Herramienta de IA para adaptar exámenes conforme a los marcos DUA, NEAE y LOMLOE.",
+    "description": "Adaptación de exámenes educativos con inteligencia artificial. Conforme al marco DUA, NEAE y LOMLOE.",
     "producto": "Producto",
     "recursos": "Recursos",
     "legal": "Legal",
-    "copyright": "© 2026 Adapto. Todos los derechos reservados."
+    "contactoLabel": "Contacto",
+    "formContact": "Formulario de contacto",
+    "copyright": "Hecho para profesores."
   },
   "diagnosticador": {
     "title": "Diagnosticador IA",

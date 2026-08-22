@@ -13,78 +13,136 @@
     "badge": "Automatic exam adaptation",
     "title1": "The exam",
     "titleHighlight": " adapts",
-    "title2": " to the student",
-    "subtitle": "Upload an exam, select the student's profile and the AI rewrites it with real adaptations aligned to UDL, NEAE and LOMLOE frameworks.",
-    "cta": "Adapt an exam now",
+    "title2": " to the student.",
+    "subtitle": "Upload an exam. Select the student's profile. Adapto rewrites it with real adaptations in seconds.",
+    "cta": "Adapt my first exam",
     "ctaSecondary": "See how it works",
-    "freeBadge": "Free - No credit card required",
-    "stats": {
-      "perfiles": "NEAE profiles",
-      "marco": "UDL / LOMLOE framework",
-      "tiempo": "generation time"
+    "freeBadge": "Free - No credit card required"
+  },
+  "badges": {
+    "title": "Built with educational standards from"
+  },
+  "stats": {
+    "exams": "Exams adapted",
+    "approved": "Approved by inspection",
+    "time": "Average time",
+    "profiles": "Student profiles"
+  },
+  "comoFunciona": {
+    "title": "Three steps.\nZero complications.",
+    "subtitle": "Stop adapting exams manually. Adapto does it for you.",
+    "step1Title": "Student profile",
+    "step1Desc": "Grade, subject and psychopedagogical report. ADHD, dyslexia, SLD, dyscalculia...",
+    "step2Title": "Upload the exam",
+    "step2Desc": "Photo from your phone, direct PDF or pasted text. Whatever is easiest for you.",
+    "step3Title": "All done",
+    "step3Desc": "Rewritten exam, technical report, UDL score and support sheet."
+  },
+  "diagLanding": {
+    "badge": "Pro only",
+    "title": "AI Diagnostic.",
+    "desc1": "Upload a completed exam and the AI analyzes the student's response patterns: error types, consistency, comprehension, writing and emotional factors.",
+    "desc2": "Generates hypotheses of possible NEAE profiles with a confidence percentage and a detailed explanation of the detected patterns.",
+    "features": [
+      "Error and writing pattern analysis",
+      "Up to 4 hypotheses with confidence %",
+      "Complete explanation with exam evidence",
+      "Direct link to each profile's page"
+    ],
+    "cta": "Try Diagnostic"
+  },
+  "resultado": {
+    "title": "This is how Adapto adapts a real exam.",
+    "subtitle": "See the difference between the original exam and the ADHD-adapted version.",
+    "original": "Original",
+    "noAdapted": "Not adapted",
+    "adapted": "Adapted for ADHD",
+    "questions": "questions",
+    "complexity": "Complexity",
+    "justification": "Justification:",
+    "classroomTip": "Classroom tip:"
+  },
+  "testimonios": {
+    "title": "Real teachers, real results."
+  },
+  "perfilesLanding": {
+    "title": "Adapted to every student.",
+    "subtitle": "Explore each NEAE profile in depth: what it is, how it impacts exams, and what adaptations we apply.",
+    "viewProfile": "View profile",
+    "cta": "Try adapting with any of these profiles"
+  },
+  "faqLanding": {
+    "title": "We answer your questions.",
+    "questions": [
+      { "q": "How does it work exactly?", "a": "Upload the exam as an image, PDF or text. Select the student's profile (ADHD, dyslexia, etc.) and Adapto rewrites the questions with real adaptations: word banks, simplified instructions, reduced times and visual cues." },
+      { "q": "Are the adaptations valid for educational inspection?", "a": "Yes. Adapto follows the UDL framework, LOMLOE criteria and the BOE's NEAE standards. The report includes a UDL score (0-100), principle-by-principle analysis and a downloadable PDF support sheet." },
+      { "q": "Do I need an education background to use it?", "a": "Not at all. You just specify the grade, subject and type of need. Adapto handles the rest using AI trained on current Spanish educational regulations." },
+      { "q": "What formats can I upload?", "a": "PDF, image (JPG/PNG) or direct text. You can paste the full exam or upload a photo from your phone." },
+      { "q": "Is there a free version?", "a": "Yes. You can adapt up to 3 exams for free with a watermark on the PDF. No registration, no credit card." }
+    ]
+  },
+  "preciosLanding": {
+    "title": "Simple, fair, no surprises.",
+    "free": {
+      "name": "Free",
+      "desc": "To try and explore",
+      "price": "0",
+      "currency": "EUR/mo",
+      "cta": "Start for free",
+      "features": [
+        "3 exam adaptations",
+        "Adapted exam with justifications",
+        "UDL criteria per question",
+        "3 ADHD profiles included",
+        "Report preview",
+        "Basic AdapBot"
+      ]
+    },
+    "pro": {
+      "name": "Pro",
+      "badge": "Most chosen",
+      "desc": "For real weekly use",
+      "price": "35",
+      "currency": "EUR/mo",
+      "cta": "Upgrade to Pro",
+      "features": [
+        "Unlimited adaptations",
+        "16 full NEAE profiles",
+        "Download full PDF report",
+        "AI Diagnostic",
+        "AdapBot with full context",
+        "Per-question complexity analysis",
+        "Saved history",
+        "Priority support"
+      ]
+    },
+    "centros": {
+      "name": "Centers",
+      "desc": "Schools and academies",
+      "price": "Custom",
+      "cta": "Let's talk",
+      "features": [
+        "Everything in Pro included",
+        "Per-seat pricing",
+        "Admin dashboard",
+        "Dedicated support",
+        "Guaranteed SLA"
+      ]
     }
   },
-  "sections": {
-    "comoFunciona": {
-      "label": "How it works",
-      "title": "Adapt an exam in 3 steps",
-      "subtitle": "No complex settings. Upload, select and done.",
-      "step1": {
-        "title": "Upload the exam",
-        "desc": "Drag the PDF or paste the exam text you want to adapt."
-      },
-      "step2": {
-        "title": "Select the profile",
-        "desc": "Choose from 16 NEAE profiles: ADHD, dyslexia, ASD, dyscalculia and more."
-      },
-      "step3": {
-        "title": "Get the adaptation",
-        "desc": "The AI generates the adapted exam with a full report and rationale for every change."
-      }
-    },
-    "perfiles": {
-      "label": "NEAE Profiles",
-      "title": "16 profiles backed by science",
-      "subtitle": "Each profile includes peer-reviewed research evidence and recommended adaptations."
-    },
-    "pricing": {
-      "label": "Pricing",
-      "title": "Choose your plan",
-      "subtitle": "Start free. Upgrade when you need to.",
-      "free": {
-        "name": "Free",
-        "price": "0 EUR",
-        "period": "forever",
-        "cta": "Start for free",
-        "features": [
-          "3 exam adaptations per month",
-          "3 ADHD profiles available",
-          "Report preview",
-          "AI generation adapted to profile"
-        ]
-      },
-      "pro": {
-        "name": "Pro",
-        "price": "35 EUR",
-        "period": "/month VAT included",
-        "cta": "Upgrade to Pro",
-        "features": [
-          "Unlimited adaptations",
-          "16 full NEAE profiles",
-          "Download full PDF report",
-          "AI exam diagnostic",
-          "AdapBot with profile context",
-          "Priority support"
-        ]
-      }
-    }
+  "ctaFinal": {
+    "title": "Adapting an exam\nwas never this easy.",
+    "subtitle": "Upload your first exam now. Free, no registration, no commitment.",
+    "cta": "Adapt my first exam"
   },
   "footer": {
-    "description": "AI tool to adapt exams aligned with UDL, NEAE and LOMLOE frameworks.",
+    "description": "AI-powered exam adaptation for education. Aligned with UDL, NEAE and LOMLOE frameworks.",
     "producto": "Product",
     "recursos": "Resources",
     "legal": "Legal",
-    "copyright": "2026 Adapto. All rights reserved."
+    "contactoLabel": "Contact",
+    "formContact": "Contact form",
+    "copyright": "Built for teachers."
   },
   "diagnosticador": {
     "title": "AI Diagnostic",
